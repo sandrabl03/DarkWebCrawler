@@ -1,0 +1,287 @@
+2025-10-06 10:38:35,127 INFO Iniciando crawler_tor_with_neo4j.py
+2025-10-06 10:38:35,128 WARNING No se pudo asegurar constraints en Neo4j (revisa conexión): Couldn't connect to 127.0.0.1:7687 (resolved to ('127.0.0.1:7687',)):
+Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reason [Errno 111] Connection refused)
+2025-10-06 10:38:35,130 INFO Inicializadas seeds: 10
+2025-10-06 10:38:35,133 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/ depth=0
+2025-10-06 10:42:52,238 INFO Iniciando crawler
+2025-10-06 10:42:52,253 WARNING No se pudo asegurar constraints en Neo4j (revisa conexión): Couldn't connect to 127.0.0.1:7687 (resolved to ('127.0.0.1:7687',)):
+Failed to read four byte Bolt handshake response from server ResolvedIPv4Address(('127.0.0.1', 7687)) (deadline Deadline(timeout=60.0))
+2025-10-06 10:42:52,254 INFO Inicializadas seeds: 10
+2025-10-06 10:42:52,254 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/ depth=0
+2025-10-06 10:55:47,756 INFO Iniciando crawler
+2025-10-06 10:55:47,988 WARNING No se pudo asegurar constraints en Neo4j (revisa conexión): Couldn't connect to 127.0.0.1:7687 (resolved to ('127.0.0.1:7687',)):
+Connection to 127.0.0.1:7687 closed with incomplete handshake response
+2025-10-06 10:55:48,024 INFO Inicializadas seeds: 10
+2025-10-06 10:55:48,035 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/ depth=0
+2025-10-06 11:06:15,189 INFO Iniciando crawler
+2025-10-06 11:06:15,408 INFO Received notification from DBMS server: <GqlStatusObject gql_status='00NA0', status_description="note: successful completion - index or constraint already exists. The command 'CREATE CONSTRAINT page_url_unique IF NOT EXISTS FOR (e:Page) REQUIRE (e.url) IS UNIQUE' has no effect. The index or constraint specified by 'CONSTRAINT page_url_unique FOR (e:Page) REQUIRE (e.url) IS UNIQUE' already exists.", position=None, raw_classification='SCHEMA', classification=<NotificationClassification.SCHEMA: 'SCHEMA'>, raw_severity='INFORMATION', severity=<NotificationSeverity.INFORMATION: 'INFORMATION'>, diagnostic_record={'_classification': 'SCHEMA', '_severity': 'INFORMATION', 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n        CREATE CONSTRAINT page_url_unique IF NOT EXISTS\n        FOR (p:Page) REQUIRE p.url IS UNIQUE\n        '
+2025-10-06 11:06:15,429 INFO Inicializadas seeds: 10
+2025-10-06 11:06:15,430 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/ depth=0
+2025-10-06 11:06:26,957 INFO Fetching (2/500) http://22222253djygaeocg3wgenesjjf3ha22id7if7s5tcf6kafarardrdqd.onion/ depth=0
+2025-10-06 11:06:49,836 INFO Fetching (3/500) http://222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion/ depth=0
+2025-10-06 11:07:09,648 WARNING No response or not 200 for http://222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion/ (status=408)
+2025-10-06 11:07:14,903 INFO Fetching (3/500) http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ depth=0
+2025-10-06 11:07:25,535 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfdf8f700>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:07:37,915 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd70fee0>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:07:56,939 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74c280>, 'Connection to 222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion timed out. (connect timeout=15)')': /
+2025-10-06 11:08:19,965 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74c550>, 'Connection to 222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion timed out. (connect timeout=15)')': /
+2025-10-06 11:08:45,867 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74c820>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:09:05,549 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd70fc10>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:09:17,812 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74d030>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:09:35,202 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd70fc70>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:09:54,880 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfe476a40>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:10:22,994 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74cb20>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 11:10:36,236 WARNING GET error http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ : SOCKSHTTPConnectionPool(host='222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion', port=80): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x720bfd74c9a0>: Failed to establish a new connection: 0x04: Host unreachable'))
+2025-10-06 11:10:36,236 WARNING No response or not 200 for http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ (status=None)
+2025-10-06 11:10:41,491 INFO Fetching (3/500) http://22222usw4zidknuzh5xv25heh7x3a2pt6fmrq3f7ii474zrewwonl3id.onion/ depth=0
+2025-10-06 11:11:00,820 INFO Fetching (4/500) http://22222uswoye6ve7ixbgkwlvynjrvsg4od2qrs6zs5pbtprxikimdrfyd.onion/ depth=0
+2025-10-06 11:11:10,155 INFO Duplicado detectado por hash, skip.
+2025-10-06 11:11:13,659 INFO Fetching (4/500) http://22222vtmbmeiqelg362kpbxexy3h6kucj2hxzviqmfjv7l6t6hjuxoad.onion/ depth=0
+2025-10-06 11:11:30,190 INFO Fetching (5/500) http://2222a7amlxm6gq2yulps5g56y4ny55kzql7txh7knbhndchw4ucw7sqd.onion/ depth=0
+2025-10-06 11:11:39,898 INFO Fetching (6/500) http://2222d2iyeq5ruli2xasyez3scsf44ambxm2cikxt766tacho36kn63ad.onion/ depth=0
+2025-10-06 11:11:55,458 INFO Fetching (7/500) http://2222ezcvfnpk2xrooz77uzn2spldvpeq3gmypmjnlsqenup3kcsvjead.onion/ depth=0
+2025-10-06 11:12:11,541 INFO Fetching (8/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/become-a-vendor/ depth=1
+2025-10-06 11:12:19,989 INFO Fetching (9/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/my-account/ depth=1
+2025-10-06 11:12:28,021 INFO Fetching (10/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/cart/ depth=1
+2025-10-06 11:12:32,907 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:12:32,910 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:12:45,122 INFO Estado guardado.
+2025-10-06 11:12:48,625 INFO Fetching (11/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/shop/ depth=1
+2025-10-06 11:12:57,688 INFO Fetching (12/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/vendors/ depth=1
+2025-10-06 11:13:06,572 INFO Fetching (13/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/ak/ depth=1
+2025-10-06 11:13:15,698 INFO Fetching (14/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/ammo/ depth=1
+2025-10-06 11:13:24,842 INFO Fetching (15/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/bitcoin-ethereum-wallets/ depth=1
+2025-10-06 11:13:33,295 INFO Fetching (16/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/ depth=1
+2025-10-06 11:13:42,399 INFO Fetching (17/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/buds-flowers/ depth=1
+2025-10-06 11:13:51,222 INFO Fetching (18/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/ depth=1
+2025-10-06 11:14:00,490 INFO Fetching (19/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/cbd-oil-body-care/ depth=1
+2025-10-06 11:14:10,140 INFO Fetching (20/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/shatter/ depth=1
+2025-10-06 11:14:16,166 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:14:16,169 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:14:20,494 INFO Estado guardado.
+2025-10-06 11:14:23,997 INFO Fetching (21/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/edibles/ depth=1
+2025-10-06 11:14:34,489 INFO Fetching (22/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/hash/ depth=1
+2025-10-06 11:41:08,678 INFO Iniciando crawler
+2025-10-06 11:41:08,748 INFO Received notification from DBMS server: <GqlStatusObject gql_status='00NA0', status_description="note: successful completion - index or constraint already exists. The command 'CREATE CONSTRAINT page_url_unique IF NOT EXISTS FOR (e:Page) REQUIRE (e.url) IS UNIQUE' has no effect. The index or constraint specified by 'CONSTRAINT page_url_unique FOR (e:Page) REQUIRE (e.url) IS UNIQUE' already exists.", position=None, raw_classification='SCHEMA', classification=<NotificationClassification.SCHEMA: 'SCHEMA'>, raw_severity='INFORMATION', severity=<NotificationSeverity.INFORMATION: 'INFORMATION'>, diagnostic_record={'_classification': 'SCHEMA', '_severity': 'INFORMATION', 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n        CREATE CONSTRAINT page_url_unique IF NOT EXISTS\n        FOR (p:Page) REQUIRE p.url IS UNIQUE\n        '
+2025-10-06 11:41:08,793 INFO Reanudando: cola 1465, seen 1488, hashes 20, neo_buffer 0
+2025-10-06 11:41:08,795 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/edibles/ depth=1
+2025-10-06 11:41:21,990 INFO Fetching (2/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/hash/ depth=1
+2025-10-06 11:41:32,940 INFO Fetching (3/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/other-cannabis/ depth=1
+2025-10-06 11:41:42,014 INFO Fetching (4/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/prerolls/ depth=1
+2025-10-06 11:41:51,503 INFO Fetching (5/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/seeds/ depth=1
+2025-10-06 11:42:03,420 INFO Fetching (6/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/shake/ depth=1
+2025-10-06 11:42:12,743 INFO Fetching (7/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/synthetic/ depth=1
+2025-10-06 11:42:25,141 INFO Fetching (8/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/tropicals-others/ depth=1
+2025-10-06 11:42:35,890 INFO Fetching (9/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-oil/ depth=1
+2025-10-06 11:42:44,621 INFO Fetching (10/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-oil/cartridges/ depth=1
+2025-10-06 11:42:50,498 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:42:50,502 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:42:53,823 INFO Estado guardado.
+2025-10-06 11:42:57,326 INFO Fetching (11/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/ depth=1
+2025-10-06 11:43:07,094 INFO Fetching (12/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-clothing/ depth=1
+2025-10-06 11:43:18,052 INFO Fetching (13/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-digital-items/ depth=1
+2025-10-06 11:43:26,953 INFO Fetching (14/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-electronics/ depth=1
+2025-10-06 11:43:37,159 INFO Fetching (15/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/other-carded-items/ depth=1
+2025-10-06 11:43:47,828 INFO Fetching (16/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/chemicals/ depth=1
+2025-10-06 11:43:57,348 INFO Fetching (17/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/ depth=1
+2025-10-06 11:44:06,566 INFO Fetching (18/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/cbd-oil-body-care-concentrates-2/ depth=1
+2025-10-06 11:44:15,099 INFO Fetching (19/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/hash-concentrates-2/ depth=1
+2025-10-06 11:44:23,832 INFO Fetching (20/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/shatter-concentrates-2/ depth=1
+2025-10-06 11:44:29,431 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:44:29,433 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:44:31,408 INFO Estado guardado.
+2025-10-06 11:44:34,913 INFO Fetching (21/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/ depth=1
+2025-10-06 11:51:53,733 INFO Iniciando crawler
+2025-10-06 11:51:53,769 INFO Received notification from DBMS server: <GqlStatusObject gql_status='00NA0', status_description="note: successful completion - index or constraint already exists. The command 'CREATE CONSTRAINT page_url_unique IF NOT EXISTS FOR (e:Page) REQUIRE (e.url) IS UNIQUE' has no effect. The index or constraint specified by 'CONSTRAINT page_url_unique FOR (e:Page) REQUIRE (e.url) IS UNIQUE' already exists.", position=None, raw_classification='SCHEMA', classification=<NotificationClassification.SCHEMA: 'SCHEMA'>, raw_severity='INFORMATION', severity=<NotificationSeverity.INFORMATION: 'INFORMATION'>, diagnostic_record={'_classification': 'SCHEMA', '_severity': 'INFORMATION', 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n        CREATE CONSTRAINT page_url_unique IF NOT EXISTS\n        FOR (p:Page) REQUIRE p.url IS UNIQUE\n        '
+2025-10-06 11:51:53,772 INFO Reanudando: cola 1493, seen 1536, hashes 40, neo_buffer 0
+2025-10-06 11:51:53,779 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/ depth=1
+2025-10-06 11:52:05,992 INFO Fetching (2/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-clothing/ depth=1
+2025-10-06 11:52:15,964 INFO Fetching (3/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-electronics/ depth=1
+2025-10-06 11:52:25,692 INFO Fetching (4/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-jewelry/ depth=1
+2025-10-06 11:52:33,738 INFO Fetching (5/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-money/ depth=1
+2025-10-06 11:52:42,614 INFO Fetching (6/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/electronics-counterfeit-items/ depth=1
+2025-10-06 11:52:51,701 INFO Fetching (7/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/fake-ids/ depth=1
+2025-10-06 11:53:02,229 INFO Fetching (8/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/jewelry-gold/ depth=1
+2025-10-06 11:53:11,338 INFO Fetching (9/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/money/ depth=1
+2025-10-06 11:53:22,634 INFO Fetching (10/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/other-counterfeit-items/ depth=1
+2025-10-06 11:53:28,292 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:53:28,293 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:53:30,065 INFO Estado guardado.
+2025-10-06 11:53:33,571 INFO Fetching (11/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/tobacco-counterfeit-items/ depth=1
+2025-10-06 11:53:44,394 INFO Fetching (12/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/ depth=1
+2025-10-06 11:53:53,878 INFO Fetching (13/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/counterfeiting/ depth=1
+2025-10-06 11:54:03,927 INFO Fetching (14/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/crypto-to-cash/ depth=1
+2025-10-06 11:54:13,677 INFO Fetching (15/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/end-to-end-encrypted-phones/ depth=1
+2025-10-06 11:54:23,561 INFO Fetching (16/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/ depth=1
+2025-10-06 11:54:32,505 INFO Fetching (17/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/e-books/ depth=1
+2025-10-06 11:54:43,083 INFO Fetching (18/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/erotica-logins-only/ depth=1
+2025-10-06 11:54:51,274 INFO Fetching (19/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/game-keys/ depth=1
+2025-10-06 11:55:00,158 INFO Fetching (20/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/license-keys/ depth=1
+2025-10-06 11:55:05,532 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 11:55:05,533 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 11:55:07,432 INFO Estado guardado.
+2025-10-06 11:55:10,938 INFO Fetching (21/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/other-digital-items/ depth=1
+2025-10-06 12:05:48,559 INFO Iniciando crawler
+2025-10-06 12:05:48,625 INFO Received notification from DBMS server: <GqlStatusObject gql_status='00NA0', status_description="note: successful completion - index or constraint already exists. The command 'CREATE CONSTRAINT page_url_unique IF NOT EXISTS FOR (e:Page) REQUIRE (e.url) IS UNIQUE' has no effect. The index or constraint specified by 'CONSTRAINT page_url_unique FOR (e:Page) REQUIRE (e.url) IS UNIQUE' already exists.", position=None, raw_classification='SCHEMA', classification=<NotificationClassification.SCHEMA: 'SCHEMA'>, raw_severity='INFORMATION', severity=<NotificationSeverity.INFORMATION: 'INFORMATION'>, diagnostic_record={'_classification': 'SCHEMA', '_severity': 'INFORMATION', 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n        CREATE CONSTRAINT page_url_unique IF NOT EXISTS\n        FOR (p:Page) REQUIRE p.url IS UNIQUE\n        '
+2025-10-06 12:05:48,633 INFO Inicializadas seeds: 10
+2025-10-06 12:05:48,635 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/ depth=0
+2025-10-06 12:06:05,472 INFO Fetching (2/500) http://22222253djygaeocg3wgenesjjf3ha22id7if7s5tcf6kafarardrdqd.onion/ depth=0
+2025-10-06 12:06:25,331 INFO Fetching (3/500) http://222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion/ depth=0
+2025-10-06 12:06:44,207 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("SOCKSHTTPConnectionPool(host='222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion', port=80): Read timed out. (read timeout=15)")': /
+2025-10-06 12:07:04,484 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("SOCKSHTTPConnectionPool(host='222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion', port=80): Read timed out. (read timeout=15)")': /
+2025-10-06 12:07:46,116 WARNING No response or not 200 for http://222222qsv7g7oszix74rmsygiuff4w5tw5futk3m4riiwkfu2dvktmad.onion/ (status=408)
+2025-10-06 12:07:51,371 INFO Fetching (3/500) http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ depth=0
+2025-10-06 12:08:01,222 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521c86620>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:08:13,280 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521693220>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:08:27,295 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d5216935b0>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:08:44,919 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521693910>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:09:11,800 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521693c70>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:09:33,920 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d5213744f0>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:09:45,473 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521374880>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:09:59,248 WARNING Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521374be0>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:10:17,260 WARNING Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521374f40>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:10:42,781 WARNING Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d5213752a0>: Failed to establish a new connection: 0x04: Host unreachable')': /
+2025-10-06 12:11:12,374 WARNING GET error http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ : SOCKSHTTPConnectionPool(host='222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion', port=80): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x77d521375600>: Failed to establish a new connection: 0x04: Host unreachable'))
+2025-10-06 12:11:12,374 WARNING No response or not 200 for http://222222qszh7l5qdadebpmtaqf2edbdandh2x3wc6ryofv7heplwxfuqd.onion/ (status=None)
+2025-10-06 12:11:17,628 INFO Fetching (3/500) http://22222usw4zidknuzh5xv25heh7x3a2pt6fmrq3f7ii474zrewwonl3id.onion/ depth=0
+2025-10-06 12:11:33,042 INFO Fetching (4/500) http://22222uswoye6ve7ixbgkwlvynjrvsg4od2qrs6zs5pbtprxikimdrfyd.onion/ depth=0
+2025-10-06 12:11:37,972 INFO Duplicado detectado por hash, skip.
+2025-10-06 12:11:41,476 INFO Fetching (4/500) http://22222vtmbmeiqelg362kpbxexy3h6kucj2hxzviqmfjv7l6t6hjuxoad.onion/ depth=0
+2025-10-06 12:11:56,483 INFO Fetching (5/500) http://2222a7amlxm6gq2yulps5g56y4ny55kzql7txh7knbhndchw4ucw7sqd.onion/ depth=0
+2025-10-06 12:12:06,507 INFO Fetching (6/500) http://2222d2iyeq5ruli2xasyez3scsf44ambxm2cikxt766tacho36kn63ad.onion/ depth=0
+2025-10-06 12:12:23,507 INFO Fetching (7/500) http://2222ezcvfnpk2xrooz77uzn2spldvpeq3gmypmjnlsqenup3kcsvjead.onion/ depth=0
+2025-10-06 12:12:39,840 INFO Fetching (8/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/become-a-vendor/ depth=1
+2025-10-06 12:12:49,467 INFO Fetching (9/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/my-account/ depth=1
+2025-10-06 12:12:58,235 INFO Fetching (10/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/cart/ depth=1
+2025-10-06 12:13:03,907 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 12:13:03,907 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 12:13:06,831 INFO Estado guardado.
+2025-10-06 12:13:10,334 INFO Fetching (11/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/shop/ depth=1
+2025-10-06 12:13:21,118 INFO Fetching (12/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/vendors/ depth=1
+2025-10-06 12:13:32,653 INFO Fetching (13/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/ak/ depth=1
+2025-10-06 12:13:46,079 INFO Fetching (14/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/ammo/ depth=1
+2025-10-06 12:13:56,259 INFO Fetching (15/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/bitcoin-ethereum-wallets/ depth=1
+2025-10-06 12:14:08,169 INFO Fetching (16/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/ depth=1
+2025-10-06 12:14:18,795 INFO Fetching (17/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/buds-flowers/ depth=1
+2025-10-06 12:14:27,629 INFO Fetching (18/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/ depth=1
+2025-10-06 12:14:36,836 INFO Fetching (19/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/cbd-oil-body-care/ depth=1
+2025-10-06 12:14:46,932 INFO Fetching (20/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/concentrates/shatter/ depth=1
+2025-10-06 12:14:52,257 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 12:14:52,258 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 12:14:54,048 INFO Estado guardado.
+2025-10-06 12:14:57,554 INFO Fetching (21/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/edibles/ depth=1
+2025-10-06 12:15:07,459 INFO Fetching (22/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/hash/ depth=1
+2025-10-06 12:15:19,323 INFO Fetching (23/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/other-cannabis/ depth=1
+2025-10-06 12:15:30,602 INFO Fetching (24/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/prerolls/ depth=1
+2025-10-06 12:15:39,831 INFO Fetching (25/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/seeds/ depth=1
+2025-10-06 12:15:51,951 INFO Fetching (26/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/shake/ depth=1
+2025-10-06 12:16:01,939 INFO Fetching (27/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/synthetic/ depth=1
+2025-10-06 12:16:14,784 INFO Fetching (28/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-hashish/tropicals-others/ depth=1
+2025-10-06 12:16:24,696 INFO Fetching (29/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-oil/ depth=1
+2025-10-06 12:16:34,550 INFO Fetching (30/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/cannabis-oil/cartridges/ depth=1
+2025-10-06 12:16:42,292 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 12:16:42,299 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 12:16:43,694 INFO Estado guardado.
+2025-10-06 12:16:47,199 INFO Fetching (31/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/ depth=1
+2025-10-06 12:16:56,175 INFO Fetching (32/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-clothing/ depth=1
+2025-10-06 12:17:06,373 INFO Fetching (33/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-digital-items/ depth=1
+2025-10-06 12:17:15,841 INFO Fetching (34/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/carded-electronics/ depth=1
+2025-10-06 12:17:25,350 INFO Fetching (35/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/carded-items/other-carded-items/ depth=1
+2025-10-06 12:17:36,118 INFO Fetching (36/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/chemicals/ depth=1
+2025-10-06 12:17:46,363 INFO Fetching (37/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/ depth=1
+2025-10-06 12:17:55,108 INFO Fetching (38/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/cbd-oil-body-care-concentrates-2/ depth=1
+2025-10-06 12:18:05,646 INFO Fetching (39/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/hash-concentrates-2/ depth=1
+2025-10-06 12:18:14,954 INFO Fetching (40/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/concentrates-2/shatter-concentrates-2/ depth=1
+2025-10-06 12:18:21,836 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-06 12:18:21,837 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-06 12:18:23,795 INFO Estado guardado.
+2025-10-06 12:18:27,302 INFO Fetching (41/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/ depth=1
+2025-10-06 12:18:37,154 INFO Fetching (42/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-clothing/ depth=1
+2025-10-06 12:18:46,297 INFO Fetching (43/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-electronics/ depth=1
+2025-10-06 12:18:57,926 INFO Fetching (44/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-jewelry/ depth=1
+2025-10-06 12:19:10,870 INFO Fetching (45/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-money/ depth=1
+2025-10-06 12:19:23,095 INFO Fetching (46/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/electronics-counterfeit-items/ depth=1
+2025-10-08 11:09:37,671 INFO Iniciando crawler
+2025-10-08 11:09:45,262 INFO Received notification from DBMS server: <GqlStatusObject gql_status='00NA0', status_description="note: successful completion - index or constraint already exists. The command 'CREATE CONSTRAINT page_url_unique IF NOT EXISTS FOR (e:Page) REQUIRE (e.url) IS UNIQUE' has no effect. The index or constraint specified by 'CONSTRAINT page_url_unique FOR (e:Page) REQUIRE (e.url) IS UNIQUE' already exists.", position=None, raw_classification='SCHEMA', classification=<NotificationClassification.SCHEMA: 'SCHEMA'>, raw_severity='INFORMATION', severity=<NotificationSeverity.INFORMATION: 'INFORMATION'>, diagnostic_record={'_classification': 'SCHEMA', '_severity': 'INFORMATION', 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n        CREATE CONSTRAINT page_url_unique IF NOT EXISTS\n        FOR (p:Page) REQUIRE p.url IS UNIQUE\n        '
+2025-10-08 11:09:45,274 INFO Reanudando: cola 1497, seen 1540, hashes 40, neo_buffer 0
+2025-10-08 11:09:45,281 INFO Fetching (1/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/ depth=1
+2025-10-08 11:10:17,153 INFO Fetching (2/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-clothing/ depth=1
+2025-10-08 11:10:40,512 INFO Fetching (3/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-electronics/ depth=1
+2025-10-08 11:10:58,498 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:11:02,007 INFO Fetching (3/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-jewelry/ depth=1
+2025-10-08 11:11:24,962 INFO Fetching (4/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/counterfeit-money/ depth=1
+2025-10-08 11:11:41,168 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.contrib.socks.SOCKSConnection object at 0x7bd255396ef0>, 'Connection to deye6zic672juc6wjeua6khpwfiz7kicwdsl4ryyg2427temdfthyjad.onion timed out. (connect timeout=15)')': /
+2025-10-08 11:11:59,338 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:12:02,854 INFO Fetching (4/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/electronics-counterfeit-items/ depth=1
+2025-10-08 11:12:25,468 INFO Fetching (5/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/fake-ids/ depth=1
+2025-10-08 11:12:46,915 INFO Fetching (6/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/jewelry-gold/ depth=1
+2025-10-08 11:13:07,330 INFO Fetching (7/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/money/ depth=1
+2025-10-08 11:13:30,954 INFO Fetching (8/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/other-counterfeit-items/ depth=1
+2025-10-08 11:13:54,003 INFO Fetching (9/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/counterfeit-items/tobacco-counterfeit-items/ depth=1
+2025-10-08 11:14:17,474 INFO Fetching (10/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/ depth=1
+2025-10-08 11:14:35,398 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-08 11:14:35,400 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-08 11:14:48,430 INFO Estado guardado.
+2025-10-08 11:14:51,934 INFO Fetching (11/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/counterfeiting/ depth=1
+2025-10-08 11:15:13,993 INFO Fetching (12/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/crypto-to-cash/ depth=1
+2025-10-08 11:15:35,354 INFO Fetching (13/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/currency/end-to-end-encrypted-phones/ depth=1
+2025-10-08 11:15:59,133 INFO Fetching (14/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/ depth=1
+2025-10-08 11:16:22,681 INFO Fetching (15/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/e-books/ depth=1
+2025-10-08 11:16:44,505 INFO Fetching (16/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/erotica-logins-only/ depth=1
+2025-10-08 11:17:06,959 INFO Fetching (17/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/game-keys/ depth=1
+2025-10-08 11:17:28,712 INFO Fetching (18/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/license-keys/ depth=1
+2025-10-08 11:17:51,552 INFO Fetching (19/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/other-digital-items/ depth=1
+2025-10-08 11:18:14,653 INFO Fetching (20/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/digital-items/other-keys/ depth=1
+2025-10-08 11:18:33,566 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-08 11:18:33,567 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-08 11:18:36,854 INFO Estado guardado.
+2025-10-08 11:18:40,358 INFO Fetching (21/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/dissociatives/ depth=1
+2025-10-08 11:19:05,581 INFO Fetching (22/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/dissociatives/ghb/ depth=1
+2025-10-08 11:19:28,536 INFO Fetching (23/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/dissociatives/ketamine/ depth=1
+2025-10-08 11:19:53,026 INFO Fetching (24/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/dissociatives/mxe/ depth=1
+2025-10-08 11:20:10,412 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:20:13,915 INFO Fetching (24/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/dissociatives/other-dissociatives/ depth=1
+2025-10-08 11:20:40,867 INFO Fetching (25/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/ depth=1
+2025-10-08 11:21:05,597 INFO Fetching (26/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/alcohol-drugs/ depth=1
+2025-10-08 11:21:27,284 INFO Fetching (27/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/barbiturates/ depth=1
+2025-10-08 11:21:47,769 INFO Fetching (28/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/benzos-drugs/ depth=1
+2025-10-08 11:22:12,281 INFO Fetching (29/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/ depth=1
+2025-10-08 11:22:32,829 INFO Fetching (30/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-cannabis/ depth=1
+2025-10-08 11:22:50,524 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:22:54,035 INFO Fetching (30/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-cannabis/wax/ depth=1
+2025-10-08 11:23:10,911 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-08 11:23:10,912 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-08 11:23:15,599 INFO Estado guardado.
+2025-10-08 11:23:19,103 INFO Fetching (31/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-concentrates/ depth=1
+2025-10-08 11:23:43,966 INFO Fetching (32/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-concentrates/shatter-concentrates-concentrates/ depth=1
+2025-10-08 11:24:05,341 INFO Fetching (33/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/ depth=1
+2025-10-08 11:24:27,440 INFO Fetching (34/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/cannabis-concentrates-drugs/ depth=1
+2025-10-08 11:24:50,683 INFO Fetching (35/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/cannabis-concentrates-drugs/concentrates-cannabis-concentrates-drugs/ depth=1
+2025-10-08 11:25:08,211 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:25:11,718 INFO Fetching (35/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/cannabis-concentrates-drugs/concentrates-cannabis-concentrates-drugs/wax-concentrates-cannabis-concentrates-drugs/ depth=1
+2025-10-08 11:25:36,936 INFO Fetching (36/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/cannabis-concentrates-drugs/hash-cannabis-concentrates-drugs/ depth=1
+2025-10-08 11:25:59,436 INFO Fetching (37/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/concentrates-drugs/cannabis-concentrates-drugs/vaporizers-cannabis-concentrates-drugs/ depth=1
+2025-10-08 11:26:22,349 INFO Fetching (38/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/edibles-cannabis/ depth=1
+2025-10-08 11:26:43,488 INFO Fetching (39/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/hash-cannabis/ depth=1
+2025-10-08 11:27:10,466 INFO Fetching (40/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/seeds-cannabis/ depth=1
+2025-10-08 11:27:27,725 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-08 11:27:27,727 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-08 11:27:30,629 INFO Estado guardado.
+2025-10-08 11:27:34,155 INFO Fetching (41/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/vaporizers/ depth=1
+2025-10-08 11:27:55,511 INFO Fetching (42/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/cannabis/weed/ depth=1
+2025-10-08 11:28:16,441 INFO Fetching (43/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/ depth=1
+2025-10-08 11:28:41,853 INFO Fetching (44/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/gbl/ depth=1
+2025-10-08 11:29:03,317 INFO Fetching (45/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/ghb-dissociatives-drugs/ depth=1
+2025-10-08 11:29:29,971 INFO Fetching (46/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/ketamine-dissociatives-drugs/ depth=1
+2025-10-08 11:29:51,039 INFO Fetching (47/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/methoxetamine/ depth=1
+2025-10-08 11:30:10,664 INFO Duplicado detectado por hash, skip.
+2025-10-08 11:30:14,168 INFO Fetching (47/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/dissociatives-drugs/pcp/ depth=1
+2025-10-08 11:30:35,768 INFO Fetching (48/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/drugs-precursors/ depth=1
+2025-10-08 11:30:58,960 INFO Fetching (49/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/drugs-precursors/a-oil/ depth=1
+2025-10-08 11:31:30,331 INFO Fetching (50/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/drugs-precursors/apaan/ depth=1
+2025-10-08 11:31:45,349 WARNING Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ConnectTimeoutError(<urllib3.contrib.socks.SOCKSConnection object at 0x7bd255396e30>, 'Connection to 2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion timed out. (connect timeout=15)')': /product-category/drugs/drugs-precursors/apaan/
+2025-10-08 11:31:55,487 WARNING Retrying (Retry(total=3, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.contrib.socks.SOCKSConnection object at 0x7bd253f61a20>: Failed to establish a new connection: 0x01: General SOCKS server failure')': /product-category/drugs/drugs-precursors/apaan/
+2025-10-08 11:32:16,969 INFO Flush 10 filas a raw/raw_text.csv
+2025-10-08 11:32:16,971 INFO Añadidos 10 bloques a raw/raw.txt
+2025-10-08 11:32:18,827 INFO Estado guardado.
+2025-10-08 11:32:22,341 INFO Fetching (51/500) http://2222224x2424q7mef5g73ynt2c7ihr7kongwhgd7ee4smqm7kkamtcyd.onion/product-category/drugs/ecstasy-drugs/ depth=1

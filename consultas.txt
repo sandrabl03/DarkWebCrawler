@@ -1,0 +1,114 @@
+MATCH (p:Page)
+RETURN p.url AS URL, p.title AS Title, p.html_file AS html_file
+LIMIT 50;
+
+MATCH (p1:Page)-[r:LINKS_TO]->(p2:Page)
+RETURN p1.url AS From, p2.url AS To, r.anchor AS Anchor, r.depth AS Depth
+LIMIT 50;
+
+MATCH (t:Term)
+RETURN t.name AS Term, t.root AS IsRoot
+LIMIT 50;
+
+MATCH (p:Page)-[r:MATCHED_BY]->(t:Term)
+RETURN p.url AS Page, collect(t.name) AS Term
+LIMIT 50;
+
+MATCH (p1:Page)-[r:LINKS_TO]->(p2:Page)
+RETURN p1, r, p2
+LIMIT 100;
+
+MATCH (p:Page)-[r:MATCHED_BY]->(t:Term)
+RETURN p, r, t
+LIMIT 100;
+
+MATCH (syn:Term)-[r:SYNONYM_OF]->(root:Term)
+RETURN syn, r, root
+
+MATCH (p1:Page)-[r1:LINKS_TO]->(p2:Page), 
+      (p)-[r2:MATCHED_BY]->(t:Term)
+RETURN p1, r1, p2, r2, t
+LIMIT 100;
+
+MATCH (p:Page)-[m:MATCHED_BY]->(t:Term)
+WHERE t.name = "malware"
+RETURN p.url, m.source, m.root, m.synonym
+LIMIT 20;
+
+MATCH (p:Page)-[m:MATCHED_BY]->(t:Term)
+RETURN t.name AS term, count(*) AS frequency
+ORDER BY frequency DESC
+LIMIT 10;
+
+MATCH (p:Page)-[:MATCHED_BY]->(t:Term)
+RETURN p, t
+LIMIT 100;
+
+MATCH (t1:Term)<-[:MATCHED_BY]-(p:Page)-[:MATCHED_BY]->(t2:Term)
+WHERE t1 <> t2
+RETURN t1.name, t2.name, count(*) AS shared_pages
+ORDER BY shared_pages DESC
+LIMIT 10;
+
+MATCH (p:Page)
+RETURN count(p) AS total;
+
+MATCH (p:Page)
+WHERE p.html_file IS NULL OR p.html_file = ''
+RETURN count(p) AS pages_without_path;
+
+MATCH (n)
+DETACH DELETE n;
+
+
+http://localhost:7474/browser/
+
+-----------------------------------------
+MATCH (p:Page) RETURN count(p)
+
+MATCH (t:Term) RETURN count(t)
+
+MATCH (s:Synonym) RETURN count(s)
+
+MATCH (s:Seed) RETURN count(s)
+
+MATCH ()-[l:LINKS_TO]->() RETURN count(l)
+
+MATCH ()-[m:MENTIONS]->() RETURN count(m)
+
+MATCH (s:Synonym)-[:IS_SYNONYM_OF]->(t:Term) RETURN count(s)
+
+MATCH (p:Page)-[m:MENTIONS]->(s:Synonym) RETURN p, m, s LIMIT 5
+
+MATCH (p:Page)
+WITH p LIMIT 5 
+OPTIONAL MATCH (p)-[l:LINKS_TO]->(target)
+OPTIONAL MATCH (p)-[m:MENTIONS]->(s:Synonym)-[:IS_SYNONYM_OF]->(t:Term)
+RETURN p, l, target, m, s, t
+
+MATCH (p:Page)-[m:MENTIONS]->(s:Synonym)-[:IS_SYNONYM_OF]->(t:Term {name: 'drugs'})
+RETURN p.url AS RelevantPage, t.name AS RootTerm, collect(s.name) AS SynonymsMentioned, count(m) AS TotalMentions
+LIMIT 10
+
+MATCH (p:Page)<-[l:LINKS_TO]-()
+RETURN p.url AS PageURL, count(l) AS IncomingLinks
+ORDER BY IncomingLinks DESC
+LIMIT 5
+
+MONGODB
+
+Páginas Descartadas por Contenido Corto	db.seeds.find({ status: "discarded", discard_reason: "too_short_content" }).count()
+
+Páginas Descartadas por Falta de Términos	db.seeds.find({ status: "discarded", discard_reason: "no_matching_terms_propagated" }).count()
+
+Páginas que Fallaron Permanentemente	db.seeds.find({ status: "failed_perm" }).count()
+
+Ver un ejemplo de página descartada	db.seeds.findOne({ status: "discarded" })
+
+Páginas Ingresadas con Éxito	db.seeds.find({ status: "ingested" }).count()
+
+db.seeds.find({ status: "in_progress" }).count();
+
+db.seeds.find({ status: "done", html_file: { $exists: false } }).count();
+
+db.seeds.find({ status: "pending" }).count();
