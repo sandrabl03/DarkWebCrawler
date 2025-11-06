@@ -1,0 +1,10 @@
+{
+  "drugs": ["420", "fent", "molly", "pcp", "cheese", "flake", "X"],
+  "ransomware": ["RaaS", "malware"],
+  "carding": ["bank drops", "fullz", "dumps", "skimming"],
+  "marketplace": ["PII", "bank drops", "fullz", "escrow", "btc", "listing"],
+  "hacking": ["sauce", "AV", "Stealer", "malware", "backdoor", "credential stuffing", "dox"],
+  "fraud": ["credential stuffing", "bank drops", "fullz", "PII", "dox"],
+  "phone": ["SIM swapping"],
+  "weapon": ["guns"]
+}
