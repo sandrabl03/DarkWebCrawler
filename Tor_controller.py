@@ -6,6 +6,7 @@ import re
 import hashlib
 import logging
 import signal
+import sys
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
 
@@ -36,7 +37,7 @@ class TorController:
         self.min_text_chars = int(os.getenv("MIN_TEXT_CHARS", "1200"))
         
         # --- Límites ---
-        self.max_pages_to_fetch = 200
+        self.max_pages_to_fetch = sys.maxsize
         self.max_depth = 3
         
         self.sleep = float(os.getenv("SLEEP", "3.5"))
