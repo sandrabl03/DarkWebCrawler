@@ -1,120 +1,142 @@
 #!/usr/bin/env python3
 """
-Carga seeds_with_terms.json que hemos generado en Ahmia_controller.py en MongoDB, 
-colección `seeds` en la bbdd darkweb_tfg.
+Carga seeds_with_terms.json en MongoDB, colección 'seeds' en la bbdd 'darkweb_tfg', 
+utilizando una clase SeedLoader para encapsular la lógica y la conexión.
 """
-"""
-Estos son todos los imports necesarios para realizar la busqueda en ahmia con este codigo.
-- os para interactuar con el sistema.
-- json es para poder cargar nuestro archivo de sinonimos json y guardar los diversos json de output.
-- datatime se usa para poder manejar marcas de tiempo o timestamps en los diversos documentos de MongoDB.
-- pymongo importa dos:
-    - MongoClient: para poder conectarse a MongoDB
-    - UpdateOne: crear operaciones de actualizacion e insercion.
 
-"""
 import os
 import json
+import sys
 from datetime import datetime
 from pymongo import MongoClient, UpdateOne
+from pymongo.errors import ConnectionFailure, BulkWriteError
 
-"""
-Aqui comienza la configuracion de las diversas variables.
-"""
 # --- CONFIGURACIÓN ---
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 DBNAME = os.getenv("DBNAME", "darkweb_tfg")
 SEEDS_COLL = os.getenv("SEEDS_COLL", "seeds")
 SEEDS_FILE = os.getenv("SEEDS_FILE", "output_ahmia/seeds_with_terms.json")
 
-# --- CONEXIÓN ---
-"""
-En esta seccion nos encargamos de establecer la conexión con la base de datos MongoDB.
-"""
-try:
-    client = MongoClient(MONGO_URI)
-    # Ping para verificar la conexión inmediatamente
-    client.admin.command('ping')
-    db = client[DBNAME]
-    coll = db[SEEDS_COLL]
-except Exception as e:
-    print(f"[ERROR] No se pudo conectar a MongoDB en {MONGO_URI}. Asegúrate de que el servicio esté activo.")
-    print(f"Detalle del error: {e}")
-    raise SystemExit(1)
+# ---------------- CLASE SEED LOADER ----------------
+class SeedLoader:
+    """
+    Controlador para manejar la conexión a MongoDB y la carga de semillas 
+    desde un archivo JSON usando operaciones bulk (upsert).
+    """
+    def __init__(self, uri=MONGO_URI, dbname=DBNAME, coll_name=SEEDS_COLL, file_path=SEEDS_FILE):
+        """Inicializa la conexión a MongoDB."""
+        self.file_path = file_path
+        self.client = None
+        self.coll = None
+        
+        print(f"[INFO] Intentando conectar a MongoDB en {uri}...")
+        try:
+            self.client = MongoClient(uri)
+            self.client.admin.command('ping')
+            self.coll = self.client[dbname][coll_name]
+            print(f"[INFO] Conexión a MongoDB exitosa. Colección: {dbname}.{coll_name}")
+        except ConnectionFailure as e:
+            print(f"[ERROR] No se pudo conectar a MongoDB. Asegúrate de que el servicio esté activo.")
+            print(f"Detalle del error: {e}")
+            sys.exit(1)
+        except Exception as e:
+            print(f"[ERROR] Error al inicializar SeedLoader: {e}")
+            sys.exit(1)
 
-# --- CARGA DE DATOS ---
-"""
-Como ya tenemos conexion con la base de datos nos podemos poner ya con la carga de datos.
-Por lo tanto, podemos cargar el json ya con todas las semillas al mongo.
-"""
-if not os.path.exists(SEEDS_FILE):
-    print(f"[ERROR] No encontrado {SEEDS_FILE}")
-    print("[HINT] Asegúrate de que el archivo de semillas de backup esté en la ruta correcta.")
-    raise SystemExit(1)
+    def _load_seeds_from_file(self):
+        """Carga el array de semillas desde el archivo JSON."""
+        if not os.path.exists(self.file_path):
+            print(f"[ERROR] No encontrado {self.file_path}")
+            print("[HINT] Asegúrate de que el archivo de semillas esté en la ruta correcta.")
+            sys.exit(1)
 
-print(f"[INFO] Cargando datos de {SEEDS_FILE}...")
-with open(SEEDS_FILE, encoding='utf-8') as f:
-    seeds = json.load(f)
+        print(f"[INFO] Cargando datos de {self.file_path}...")
+        try:
+            with open(self.file_path, encoding='utf-8') as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            print(f"[ERROR] El archivo {self.file_path} no es un JSON válido.")
+            sys.exit(1)
+            
+    def _prepare_bulk_operations(self, seeds):
+        """Itera sobre las semillas y prepara las operaciones UpdateOne para la carga bulk."""
+        ops = []
+        for s in seeds:
+            url = s.get("url")
+            if not url:
+                print(f"[WARN] Semilla sin URL válida encontrada, omitiendo: {s}")
+                continue
+            
+            filter_query = {"url": url}
+            
+            doc_operations = {
+                # Campos que solo se escriben si el documento es NUEVO ($setOnInsert)
+                "$setOnInsert": {
+                    "url": url,
+                    "host": s.get("host"),
+                    "detected": s.get("detected", []),
+                    "created_at": datetime.utcnow(),
+                    "last_scraped": None,         
+                    "scrape_attempts": 0,
+                    "depth": 0 # Inicializamos la profundidad en 0 para las seeds de Ahmia
+                },
+                # Campos que se actualizan siempre
+                "$set": {
+                    "status": "pending",        
+                    "updated_at": datetime.utcnow()
+                }
+            }
+            
+            ops.append(UpdateOne(filter_query, doc_operations, upsert=True))
+        
+        return ops
 
-# --- PREPARACIÓN DE OPERACIONES BULK ---
-"""
-Aqui vamos a iterar sobre las semillas y preparar todas las operaciones necesarias para la actualizacion y la insercion que posteriormente vamos a ejecutar
-"""
-ops = [] # Aqui almacenaremos las diversas operaciones
-for s in seeds:
-    # Intenta obtener la URL. Asumimos el formato 'http://host/'
-    url = s.get("url")
-    if not url:
-        print(f"[WARN] Semilla sin URL válida encontrada: {s}")
-        continue
-    
-    # 1. Definir el filtro de búsqueda, es decir el documento se identifica por la url q sera unica
-    filter_query = {"url": url}
-    
-    # 2. Definir las operaciones de SET y SETONINSERT, es decir, las operaciones de modificacion del documento
-    doc_operations = {
-        # Campos que solo se escriben si el documento es NUEVO (insert)
-        "$setOnInsert": {
-            "url": url,
-            "host": s.get("host"),
-            "detected": s.get("detected", []),
-            "created_at": datetime.utcnow(),
-            "last_scraped": None,         
-            "scrape_attempts": 0          
-        },
-        # Campos que se actualizan siempre
-        "$set": {
-            "status": "pending",        
-            "updated_at": datetime.utcnow()
-        }
-    }
-    
-    # Añadir a la lista de operaciones bulk, crea un objeto UpdateOne con: 
-    # - filter_query: El documento a encontrar.
-    # - doc_operations: Las modificaciones a aplicar.
-    # - upsert=True: Crucial. Indica a MongoDB que si no encuentra el documento, debe insertarlo (con $setOnInsert).
-    ops.append(UpdateOne(filter_query, doc_operations, upsert=True))
+    def execute_load(self):
+        """Función principal para cargar las semillas."""
+        seeds = self._load_seeds_from_file()
+        ops = self._prepare_bulk_operations(seeds)
 
-# --- EJECUCIÓN BULK ---
-"""
-En esta seccion nos encargamos de ejecutar todas las operaciones preparadas anteriormente.
-"""
-if ops:
-    print(f"[INFO] Preparadas {len(ops)} operaciones de carga/actualización.")
+        if not ops:
+            print("[INFO] No se prepararon operaciones. El archivo de semillas podría estar vacío.")
+            return
+
+        print(f"[INFO] Preparadas {len(ops)} operaciones de carga/actualización.")
+        try:
+            res = self.coll.bulk_write(ops, ordered=False)
+            
+            print("\n--- Resultado de Bulk Write ---")
+            print(f"Documentos Insertados: {res.upserted_count}")
+            # Documentos Matched: Total de documentos que coincidieron (actualizados o no)
+            # Documentos Actualizados: Documentos que existían y cuyos campos $set fueron modificados.
+            print(f"Documentos Actualizados (matched): {res.matched_count}") 
+            print("------------------------------\n")
+            
+        except BulkWriteError as e:
+            print(f"[ERROR] Falló la operación bulk_write (parcial): {e.details}")
+        except Exception as e:
+            print(f"[ERROR] Falló la operación bulk_write (general): {e}")
+
+    def close(self):
+        """Cierra la conexión a MongoDB."""
+        if self.client:
+            self.client.close()
+            print(f"[DONE] Proceso finalizado. Colección: {DBNAME}.{SEEDS_COLL}")
+
+
+# ---------------- PUNTO DE ENTRADA ----------------
+if __name__ == '__main__':
     try:
-        res = coll.bulk_write(ops)
-        print("\n--- Resultado de Bulk Write ---")
-        print(f"Documentos Insertados: {res.upserted_count}")
-        print(f"Documentos Actualizados: {res.matched_count - res.upserted_count}")
-        print("------------------------------\n")
+        # 1. Crea la instancia, estableciendo la conexión
+        loader = SeedLoader() 
+        # 2. Ejecuta la carga
+        loader.execute_load()
         
+    except SystemExit:
+        # Se captura el SystemExit generado si hay errores críticos (ej. no JSON, no file)
+        pass 
     except Exception as e:
-        print(f"[ERROR] Falló la operación bulk_write: {e}")
-        
-else:
-    print("[INFO] No se prepararon operaciones. El archivo de semillas podría estar vacío.")
-
-# Nos indica que ya termino
-print(f"[DONE] Proceso finalizado. Colección: {DBNAME}.{SEEDS_COLL}")
-# Cierra la conexion para poder liberar los recursos.
-client.close()
+        print(f"[ERROR] Error inesperado en el cargador: {e}")
+    finally:
+        # Asegura el cierre de la conexión al finalizar o en caso de error
+        if 'loader' in locals():
+            loader.close()
