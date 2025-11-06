@@ -18,7 +18,7 @@ NEO_INGEST_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme")
 NEO_URI = os.getenv("NEO_URI", "bolt://127.0.0.1:7687")
 NEO_USER = os.getenv("NEO_USER", "neo4j")
 NEO_PASS = os.getenv("NEO_PASS", "test1234")
-API_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme") # Usa la misma variable de entorno
+API_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme") 
 PORT = int(os.getenv("NEO_INGEST_PORT", "9000"))
 
 # Configuración de Logging
@@ -91,7 +91,7 @@ class NeoIngestServer(threading.Thread):
         url = page.get("url", "")
         host = urlparse(url).hostname or url
 
-        # Lógica Cypher (MISMA LÓGICA DE TU CÓDIGO ANTERIOR)
+        # Lógica Cypher para insertar/actualizar la página y relaciones
         with driver.session() as s:
             # 1. MERGE Page node 
             s.run("""
@@ -248,12 +248,3 @@ if __name__ == '__main__':
         logging.info("Prueba de ingesta exitosa. Neo4j debería tener un nuevo nodo.")
     else:
         logging.error("Prueba de ingesta fallida. Revisa los logs y la conexión a Neo4j.")
-
-    # En un entorno real, aquí es donde TorController.py importaría e iniciaría NeoController.
-    # Como es un script de prueba, simplemente lo dejamos correr.
-    # Puedes usar Ctrl+C para detener ambos, el hilo principal y el servidor Flask (gracias a `self.daemon = True`).
-    
-    # Si quisieras que el script principal no termine inmediatamente (como lo haría TorController), 
-    # podrías usar un bucle infinito aquí para mantener el proceso principal vivo:
-    # while True:
-    #     time.sleep(1)

@@ -14,7 +14,7 @@ import requests
 from requests.exceptions import RequestException, ConnectionError, Timeout
 from bs4 import BeautifulSoup
 
-# IMPORTAMOS LOS CONTROLADORES EXTERNOS
+# Importamos los controladores de los otros python.
 from Mongo_Controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
 from Neo_controller import NeoController 
 
@@ -105,7 +105,7 @@ class TorController:
         safe_html = f"<!doctype html><html><head><meta charset='utf-8'/></head><body>{str(safe_body)}</body></html>"
         return safe_html
 
-    # --- MÉTODO PRINCIPAL (Antiguo main_loop) ---
+    # --- MÉTODO PRINCIPAL ----
     
     def start_crawling(self):
         """Bucle principal del crawler."""
