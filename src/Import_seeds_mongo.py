@@ -15,7 +15,7 @@ from pymongo.errors import ConnectionFailure, BulkWriteError
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
 DBNAME = os.getenv("DBNAME", "darkweb_tfg")
 SEEDS_COLL = os.getenv("SEEDS_COLL", "seeds")
-SEEDS_FILE = os.getenv("SEEDS_FILE", "output_ahmia/seeds_with_terms.json")
+SEEDS_FILE = os.getenv("SEEDS_FILE", "../output_ahmia/seeds_with_terms.json")
 
 # ---------------- CLASE SEED LOADER ----------------
 class SeedLoader:
