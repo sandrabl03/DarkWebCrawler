@@ -4,6 +4,7 @@ import sys
 import json
 import time
 import requests
+import os
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin, urlparse, parse_qs, unquote
 
@@ -14,9 +15,11 @@ HEADERS = {
 }
 WAIT = 5 # segundos entre búsquedas
 ONION_RE = re.compile(r'\b([a-z2-7]{16,56}\.onion)\b', re.IGNORECASE)
-OUTPUT_SEEDS = "seeds_with_terms.json"
-OUTPUT_HOSTS = "hosts_terms.json"
-SYN_FILE = "synonyms.json"
+OUTPUT_DIR_NAME = "output_ahmia"
+OUTPUT_DIR = os.path.join("..", OUTPUT_DIR_NAME)
+OUTPUT_SEEDS = os.path.join(OUTPUT_DIR, "seeds_with_terms.json")
+OUTPUT_HOSTS = os.path.join(OUTPUT_DIR, "hosts_terms.json")
+SYN_FILE = os.path.join("..", "docs", "synonyms.json")
 
 class ResultProcessor:
     """
@@ -214,6 +217,16 @@ class AhmiaScraper:
         # Usa el ResultProcessor para generar los archivos
         self.processor.output_results()
 
+
+def ensure_output_directory(directory_name):
+    """Asegura que el directorio de salida exista. Esto es nuevo."""
+    if not os.path.exists(directory_name):
+        try:
+            os.makedirs(directory_name)
+            print(f"[INFO] Creado el directorio de salida: '{directory_name}'")
+        except OSError as e:
+            print(f"[ERROR] No se pudo crear el directorio '{directory_name}': {e}")
+            sys.exit(1)
 
 def main_oop():
     """Función principal para ejecutar la versión orientada a objetos."""
