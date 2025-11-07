@@ -15,8 +15,8 @@ from requests.exceptions import RequestException, ConnectionError, Timeout
 from bs4 import BeautifulSoup
 
 # Importamos los controladores de los otros python.
-from src.Mongo_Controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
-from src.Neo_controller import NeoController 
+from Mongo_Controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
+from Neo_controller import NeoController, NeoIngestServer
 
 # Logging simple (el resto de módulos usan el suyo propio)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [TOR] %(message)s")
@@ -29,9 +29,10 @@ class TorController:
     extracción de enlaces y coordinación con MongoController y NeoController.
     """
     def __init__(self):
-        # --- Configuración (Mover todas las variables globales aquí) ---
-        self.out_html_dir = os.getenv("OUT_HTML_DIR", "raw/html_files")
-        self.tor_timeout = float(os.getenv("TOR_TIMEOUT", "60.0")) 
+        # --- Configuración ---
+        DEFAULT_HTML_DIR = os.path.join("..", "raw", "html_files")
+        self.out_html_dir = os.getenv("OUT_HTML_DIR", DEFAULT_HTML_DIR) 
+        self.tor_timeout = float(os.getenv("TOR_TIMEOUT", "60.0"))
         self.proxies = {'http': 'socks5h://127.0.0.1:9050', 'https': 'socks5h://127.0.0.1:9050'}
         self.user_agents = [os.getenv("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36")]
         self.min_text_chars = int(os.getenv("MIN_TEXT_CHARS", "1200"))
@@ -48,6 +49,16 @@ class TorController:
         
         # --- Inicialización de Controladores ---
         self.mongo_db = MongoController()
+
+        # 1. INICIAR EL SERVIDOR DE INGESTA DE NEO4J EN UN HILO
+        self.neo_server = NeoIngestServer()
+        self.neo_server.start()
+        
+        # 2. ESPERAR UN MOMENTO para que el servidor Flask se levante
+        logging.info("Iniciando servidor Neo4j en segundo plano. Esperando 3 segundos...")
+        time.sleep(3)
+        
+        # 3. Inicializar el CLIENTE NeoController
         self.neo_db = NeoController()
         
         # Setup de directorios
@@ -56,14 +67,14 @@ class TorController:
         # Manejo de señal
         signal.signal(signal.SIGINT, self.handle_sigint)
         
-        logging.info("TorController inicializado. Conexiones a DB activas.")
+        logging.info("TorController inicializado. Conexiones a DB y Servidor Neo activo.")
 
     def handle_sigint(self, signum, frame):
         """Maneja la señal SIGINT para una parada ordenada."""
         logging.info("SIGINT recibido: preparando parada ordenada...")
         self.running = False
         
-    # --- MÉTODOS DE CRAWLING (Antiguas funciones fetch_via_tor y sanitize_html) ---
+    # --- MÉTODOS DE CRAWLING ---
     
     def fetch_via_tor(self, url): 
         """Realiza la petición HTTP a través de Tor."""
@@ -79,31 +90,70 @@ class TorController:
         return None
 
     def sanitize_html(self, raw_html):
-        """Sanitiza el HTML."""
+        """Sanitiza el HTML para almacenamiento seguro y análisis de texto."""
         try:
             soup = BeautifulSoup(raw_html, "lxml")
         except Exception:
             soup = BeautifulSoup(raw_html, "html.parser")
 
-        for t in soup(['script','style','noscript','iframe','form','object','embed']):
-            t.decompose()
-            
+        # 1. Eliminar tags peligrosos (scripts, estilos, contenido incrustado, forms)
+        for tag_name in ['script', 'style', 'noscript', 'iframe', 'form', 'object', 'embed']:
+            for t in soup.find_all(tag_name):
+                t.decompose()
+
+        # 2. Neutralizar imágenes: reemplazarlas por un placeholder textual
+        for img in soup.find_all('img'):
+            alt = img.get('alt', '[imagen]')
+            img.replace_with(f" [IMG: {alt}] ")
+
+        # 3. Neutralizar enlaces: reemplazarlos por su texto interno (no clicable)
+        for a in soup.find_all('a'):
+            link_content = a.contents 
+            if link_content:
+                # Reemplazar el tag <a> por su contenido (texto)
+                a.replace_with(*link_content) 
+            else:
+                a.decompose()
+
+        # 4. Eliminar meta refresh
+        for meta in soup.find_all('meta'):
+            if meta.get('http-equiv','').lower() == 'refresh':
+                meta.decompose()
+
+        # 5. Eliminar atributos peligrosos/innecesarios
         event_attrs = re.compile(r'^on', re.IGNORECASE)
-        global_attrs_to_remove = ('style', 'data', 'src', 'srcset') 
+        attrs_to_remove = ('style', 'src', 'srcset', 'href', 'data') 
         
         for tag in soup.find_all(True):
-            if tag.name != 'a': 
-                for attr in list(tag.attrs.keys()):
-                    if event_attrs.match(attr) or attr.lower() in global_attrs_to_remove:
-                        del tag.attrs[attr]
-            else:
-                for attr in list(tag.attrs.keys()):
-                    if event_attrs.match(attr):
-                        del tag.attrs[attr]
-        
+            remove_attrs = []
+            for attr in list(tag.attrs.keys()):
+                attr_lower = attr.lower()
+                if event_attrs.match(attr) or attr_lower in attrs_to_remove:
+                    remove_attrs.append(attr)
+            
+            for a in remove_attrs:
+                try:
+                    del tag.attrs[a]
+                except Exception:
+                    pass
+
+        # 6. Ensamblaje del HTML limpio con CSP de seguridad
         safe_body = soup.body or soup
-        safe_html = f"<!doctype html><html><head><meta charset='utf-8'/></head><body>{str(safe_body)}</body></html>"
+        safe_html = f"""<!doctype html>
+            <html>
+            <head>
+            <meta charset="utf-8"/>
+            <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline';">
+            <title>Sanitized snapshot</title>
+            </head>
+            <body>
+            <p><em>Snapshot sanitized — no scripts, iframes, forms, src/href removed.</em></p>
+            {str(safe_body)}
+            </body>
+            </html>
+            """
         return safe_html
+
 
     # --- MÉTODO PRINCIPAL ----
     
@@ -146,16 +196,14 @@ class TorController:
             # Manejo de fallos en la petición
             if not r or not r.text:
                 logging.info("Falló fetch para %s", url)
-                if attempts < self.max_attempts:
-                     self.mongo_db.revert_to_pending(url)
-                else:
-                     self.mongo_db.mark_failed(url, "fetch_failed_final")
-                
+                self.mongo_db.revert_to_pending(url) 
                 time.sleep(self.sleep)
                 continue
 
             html = r.text
-            text = BeautifulSoup(html, "lxml").get_text(" ")
+            raw_soup = BeautifulSoup(html, "lxml")
+            # Extraer texto y normalizar múltiples espacios
+            text = " ".join(raw_soup.get_text(" ").split()) 
             
             # FILTRADO 1: Contenido pequeño
             if not text or len(text) < self.min_text_chars:
@@ -181,10 +229,13 @@ class TorController:
                 continue
                 
             crawled = datetime.utcnow().isoformat()
+            
+            # Extracción de título más segura
+            title = ""
             try:
-                raw_soup = BeautifulSoup(html, "lxml") 
-                title = raw_soup.title.string.strip() if raw_soup.title and raw_soup.title.string else ""
-            except:
+                if raw_soup.title and raw_soup.title.string:
+                    title = raw_soup.title.string.strip()
+            except Exception:
                 title = ""
 
             # Extracción de enlaces y propagación de seeds
@@ -197,8 +248,13 @@ class TorController:
                 
                 if self.onion_re.search(full_link):
                     parsed_link = urlparse(full_link)
+                    # Asegura que el link destino siempre termine en / si es solo el host
                     link = "http://" + (parsed_link.hostname or full_link) + "/"
                     anchor_text = a.get_text(strip=True) or (a.get('title') or "[enlace]")
+
+                    if link == url:
+                        logging.debug("Self-link detected and skipped: %s", url)
+                        continue
 
                     if new_depth <= self.max_depth:
                         self.mongo_db.ensure_seed(link, detected=current_seed_detected, origin={"parent": url, "anchor": anchor_text[:200]}, depth=new_depth)
@@ -256,7 +312,18 @@ class TorController:
                 time.sleep(self.sleep)
                 continue
                 
-            # LLAMADA AL CONTROLADOR DE NEO
+            # ---------------- POST a Neo4j ----------------
+            # FILTRADO 2: Sin términos coincidentes
+            if not matched_terms:
+                logging.warning("DIAGNÓSTICO: 'matched_terms' está vacío para %s. Saltando Neo4j, MARCANDO como 'discarded'.", url)
+                self.mongo_db.mark_done(url, discard_reason="no_matching_terms_propagated")
+                
+                new_count = self.mongo_db.get_and_inc_processed_count()
+                if new_count >= self.max_pages_to_fetch: break
+                time.sleep(self.sleep)
+                continue
+                
+            # LLAMADA AL CONTROLADOR DE NEO (CLIENTE)
             resp = self.neo_db.post_page_payload(payload) 
             
             if resp is None or resp.status_code != 200:
@@ -287,15 +354,15 @@ class TorController:
             time.sleep(self.sleep)
 
         logging.info("Worker terminado. Processed=%d", self.mongo_db.get_current_processed_count())
-        self.mongo_db.close() # CERRAR CONEXIÓN DE MONGO
+        self.mongo_db.close()
 
 # ---------------- PUNTO DE ENTRADA ----------------
 if __name__ == "__main__":
     try:
         logging.info("Iniciando Tor worker.")
-        # Creamos la instancia de la clase TorController
+        # Creamos la instancia de la clase TorController, que inicia el servidor Neo4j en un hilo
         crawler = TorController() 
-        # Ejecutamos el método principal
+        # Ejecutamos el método principal (el bucle de crawling)
         crawler.start_crawling() 
     except Exception as e:
         logging.exception("Error inesperado en worker: %s", e)
