@@ -1,5 +1,3 @@
-# mongo_controller.py
-
 import os
 import logging
 from datetime import datetime, timedelta
@@ -130,6 +128,7 @@ class MongoController:
                 logging.debug("ensure_seed upsert error: %s", e)
 
 if __name__ == '__main__':
+    # Esto es solo para probar el controlador de forma aislada, no se ejecuta en el flujo normal
     mc = MongoController()
     print(f"Contador actual: {mc.get_current_processed_count()}")
     mc.reset_stale_inprogress()

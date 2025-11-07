@@ -74,7 +74,6 @@ class SeedLoader:
                 "$setOnInsert": {
                     "url": url,
                     "host": s.get("host"),
-                    "detected": s.get("detected", []),
                     "created_at": datetime.utcnow(),
                     "last_scraped": None,         
                     "scrape_attempts": 0,
@@ -82,6 +81,7 @@ class SeedLoader:
                 },
                 # Campos que se actualizan siempre
                 "$set": {
+                    "detected": s.get("detected", []),
                     "status": "pending",        
                     "updated_at": datetime.utcnow()
                 }
