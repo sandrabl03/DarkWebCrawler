@@ -19,7 +19,7 @@ jobs:
 
       # Este paso ejecuta el escaneo
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2.1.1 # Usa la versión más reciente
+        uses: SonarSource/sonarcloud-github-action@6c28f45a72097e335022e379929f95d852a329d5
         env:
           # El token de GitHub para publicar el estado del Quality Gate
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
