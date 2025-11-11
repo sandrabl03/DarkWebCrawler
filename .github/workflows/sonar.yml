@@ -1,5 +1,4 @@
 name: Analisis de Calidad con SonarCloud
-
 on:
   push:
     branches:
@@ -14,19 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Necesario para obtener el historial completo para el análisis de PRs
           fetch-depth: 0 
 
-      # Este paso ejecuta el escaneo
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2.1.1
+        uses: SonarSource/sonarcloud-github-action@94692bf983196c34275f128be26c483a30368297 
         env:
-          # El token de GitHub para publicar el estado del Quality Gate
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # El token de SonarCloud que creaste y guardaste como Secret
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          # Clave de tu organización en SonarCloud (la encuentras en tu perfil)
           organization: "sandrabl03" 
-          # Clave de tu proyecto en SonarCloud (la encuentras en la configuración del proyecto)
           projectKey: "sandrabl03_DarkWebCrawler"
