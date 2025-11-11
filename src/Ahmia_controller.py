@@ -21,7 +21,7 @@ OUTPUT_SEEDS = os.path.join(OUTPUT_DIR, "seeds_with_terms.json")
 OUTPUT_HOSTS = os.path.join(OUTPUT_DIR, "hosts_terms.json")
 SYN_FILE = os.path.join("..", "docs", "synonyms.json")
 
-class ResultProcessor:
+class Result_processor:
     """
     Clase responsable de la gestión de datos: 
     cargar sinónimos, extraer hosts del HTML y generar archivos de salida.
@@ -135,7 +135,7 @@ class ResultProcessor:
         print(f"[DONE] Hosts detectados: {len(hosts_terms)} | Total hits (raw): {self.total_found}")
 
 
-class AhmiaScraper:
+class Ahmia_scraper:
     """Clase principal para manejar la sesión, la interacción HTTP y orquestar la búsqueda."""
 
     def __init__(self, processor, wait_time=WAIT):
@@ -231,11 +231,11 @@ def ensure_output_directory(directory_name):
 def main_oop():
     """Función principal para ejecutar la versión orientada a objetos."""
     # 1. Crear el objeto que maneja la carga y el procesamiento de datos
-    processor = ResultProcessor(syn_file=SYN_FILE)
+    processor = Result_processor(syn_file=SYN_FILE)
     
     # 2. Crear el objeto que hace las búsquedas, inyectándole el procesador
     # Esta es la parte clave de la colaboración entre clases.
-    scraper = AhmiaScraper(processor=processor, wait_time=WAIT)
+    scraper = Ahmia_scraper(processor=processor, wait_time=WAIT)
     
     # 3. Iniciar el proceso
     scraper.run_search()

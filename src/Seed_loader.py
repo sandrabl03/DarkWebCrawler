@@ -18,7 +18,7 @@ SEEDS_COLL = os.getenv("SEEDS_COLL", "seeds")
 SEEDS_FILE = os.getenv("SEEDS_FILE", "../output_ahmia/seeds_with_terms.json")
 
 # ---------------- CLASE SEED LOADER ----------------
-class SeedLoader:
+class Seed_loader:
     """
     Controlador para manejar la conexión a MongoDB y la carga de semillas 
     desde un archivo JSON usando operaciones bulk (upsert).
@@ -127,7 +127,7 @@ class SeedLoader:
 if __name__ == '__main__':
     try:
         # 1. Crea la instancia, estableciendo la conexión
-        loader = SeedLoader() 
+        loader = Seed_loader() 
         # 2. Ejecuta la carga
         loader.execute_load()
         

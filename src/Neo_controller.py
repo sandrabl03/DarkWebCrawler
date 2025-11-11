@@ -33,7 +33,7 @@ app = Flask(__name__)
 #               1. NeoIngestServer (Servidor)
 # --------------------------------------------------------
 
-class NeoIngestServer(threading.Thread):
+class Neo_ingest_server(threading.Thread):
     """
     Encapsula el servidor Flask y la lógica de base de datos Neo4j.
     Hereda de threading.Thread para ejecutarse en segundo plano.
@@ -176,7 +176,7 @@ class NeoIngestServer(threading.Thread):
 #               2. NeoController (Cliente)
 # --------------------------------------------------------
 
-class NeoController:
+class Neo_controller:
     """
     Controlador para la interacción cliente con el servicio de ingesta de Neo4j (API POST).
     """
@@ -221,7 +221,7 @@ class NeoController:
 
 if __name__ == '__main__':
     # 1. Iniciar el servidor Flask en un hilo separado (Ejecución paralela)
-    server = NeoIngestServer()
+    server = Neo_ingest_server()
     server.start()
     
     # 2. Dar tiempo al servidor para que inicie (opcional, pero útil)
@@ -229,7 +229,7 @@ if __name__ == '__main__':
     time.sleep(3) 
 
     # 3. Crear el controlador que será usado por TorController
-    neo_controller_instance = NeoController()
+    neo_controller_instance = Neo_controller()
     
     # --- PRUEBA DE FUNCIONALIDAD (Ejemplo de uso) ---
     logging.info("Iniciando simulación de uso por TorController...")
