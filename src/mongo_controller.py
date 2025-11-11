@@ -1,9 +1,12 @@
 import os
 import logging
+import json
+import sys
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
 
-from pymongo import MongoClient, ReturnDocument
+from pymongo import MongoClient, ReturnDocument, UpdateOne
+from pymongo.errors import ConnectionFailure, BulkWriteError
 
 # --- CONFIGURACIÓN (Variables de Módulo) ---
 # Se definen aquí y son accesibles para cualquier archivo que importe este módulo
@@ -126,6 +129,81 @@ class MongoController:
                 self.seeds_col.update_one({"url": url}, {"$setOnInsert": doc}, upsert=True)
             except Exception as e:
                 logging.debug("ensure_seed upsert error: %s", e)
+
+    def load_seeds_bulk(self, file_path):
+            """
+            Carga las semillas desde un archivo JSON en la colección de seeds 
+            usando operaciones bulk (upsert), reemplazando la lógica del SeedLoader.
+            
+            Retorna el número total de documentos procesados (insertados + matched).
+            """
+            if not os.path.exists(file_path):
+                logging.error("No encontrado %s", file_path)
+                print("[HINT] Asegúrate de que el archivo de semillas esté en la ruta correcta.")
+                return 0 
+
+            logging.info("Cargando datos de %s...", file_path)
+            try:
+                with open(file_path, encoding='utf-8') as f:
+                    seeds = json.load(f)
+            except json.JSONDecodeError:
+                logging.error("El archivo %s no es un JSON válido.", file_path)
+                return 0
+
+            ops = []
+            now = datetime.utcnow()
+            for s in seeds:
+                url = s.get("url")
+                if not url:
+                    logging.warning("Semilla sin URL válida encontrada, omitiendo: %s", s)
+                    continue
+                
+                filter_query = {"url": url}
+                
+                doc_operations = {
+                    # Campos que solo se escriben si el documento es NUEVO ($setOnInsert)
+                    "$setOnInsert": {
+                        "url": url,
+                        "host": s.get("host"),
+                        "created_at": now,
+                        "last_scraped": None,
+                        "scrape_attempts": 0,
+                        "attempts": 0,          # Consistente con ensure_seed
+                        "priority": 0,          # Consistente con ensure_seed
+                        "depth": 0              # Inicializamos la profundidad en 0
+                    },
+                    # Campos que se actualizan siempre
+                    "$set": {
+                        "detected": s.get("detected", []),
+                        "status": "pending",        
+                        "updated_at": now
+                    }
+                }
+                
+                ops.append(UpdateOne(filter_query, doc_operations, upsert=True))
+            
+            if not ops:
+                logging.info("No se prepararon operaciones. El archivo de semillas podría estar vacío.")
+                return 0
+
+            logging.info("Preparadas %d operaciones de carga/actualización.", len(ops))
+            
+            try:
+                res = self.seeds_col.bulk_write(ops, ordered=False)
+                
+                print("\n--- Resultado de Bulk Write ---")
+                print(f"Documentos Insertados: {res.upserted_count}")
+                print(f"Documentos Actualizados (matched): {res.matched_count}") 
+                print("------------------------------\n")
+                return res.upserted_count + res.matched_count
+                
+            except BulkWriteError as e:
+                logging.error("Falló la operación bulk_write (parcial): %s", e.details)
+                return 0
+            except Exception as e:
+                logging.error("Falló la operación bulk_write (general): %s", e)
+                return 0
+        
 
 if __name__ == '__main__':
     # Esto es solo para probar el controlador de forma aislada, no se ejecuta en el flujo normal
