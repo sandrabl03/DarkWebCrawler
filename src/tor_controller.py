@@ -15,15 +15,15 @@ from requests.exceptions import RequestException, ConnectionError, Timeout
 from bs4 import BeautifulSoup
 
 # Importamos los controladores de los otros python.
-from Mongo_controller import Mongo_controller, RESET_INPROGRESS_OLDER_MIN 
-from Neo_controller import Neo_controller, Neo_ingest_server
+from mongo_controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
+from neo_controller import NeoController, NeoIngestServer
 
 # Logging simple (el resto de módulos usan el suyo propio)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [TOR] %(message)s")
 
 
 # ---------------- CLASE TOR CONTROLLER ----------------
-class Tor_controller:
+class TorController:
     """
     Motor principal del crawler. Encapsula la lógica de fetching, filtrado,
     extracción de enlaces y coordinación con MongoController y NeoController.
@@ -48,10 +48,10 @@ class Tor_controller:
         self.running = True
         
         # --- Inicialización de Controladores ---
-        self.mongo_db = Mongo_controller()
+        self.mongo_db = MongoController()
 
         # 1. INICIAR EL SERVIDOR DE INGESTA DE NEO4J EN UN HILO
-        self.neo_server = Neo_ingest_server()
+        self.neo_server = NeoIngestServer()
         self.neo_server.start()
         
         # 2. ESPERAR UN MOMENTO para que el servidor Flask se levante
@@ -59,7 +59,7 @@ class Tor_controller:
         time.sleep(3)
         
         # 3. Inicializar el CLIENTE NeoController
-        self.neo_db = Neo_controller()
+        self.neo_db = NeoController()
         
         # Setup de directorios
         os.makedirs(self.out_html_dir, exist_ok=True)
@@ -361,7 +361,7 @@ if __name__ == "__main__":
     try:
         logging.info("Iniciando Tor worker.")
         # Creamos la instancia de la clase TorController, que inicia el servidor Neo4j en un hilo
-        crawler = Tor_controller() 
+        crawler = TorController() 
         # Ejecutamos el método principal (el bucle de crawling)
         crawler.start_crawling() 
     except Exception as e:

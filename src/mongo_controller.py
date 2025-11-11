@@ -15,7 +15,7 @@ RESET_INPROGRESS_OLDER_MIN = int(os.getenv("RESET_INPROGRESS_OLDER_MIN", "60"))
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [MONGO] %(message)s")
 
-class Mongo_controller:
+class MongoController:
     """
     Controlador para toda la interacción con la base de datos MongoDB.
     Gestiona la cola de semillas (seeds) y las estadísticas de crawling.
@@ -129,7 +129,7 @@ class Mongo_controller:
 
 if __name__ == '__main__':
     # Esto es solo para probar el controlador de forma aislada, no se ejecuta en el flujo normal
-    mc = Mongo_controller()
+    mc = MongoController()
     print(f"Contador actual: {mc.get_current_processed_count()}")
     mc.reset_stale_inprogress()
     mc.close()
