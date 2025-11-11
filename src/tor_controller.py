@@ -16,7 +16,8 @@ from bs4 import BeautifulSoup
 
 # Importamos los controladores de los otros python.
 from mongo_controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
-from neo_controller import NeoController, NeoIngestServer
+from neo_controller import NeoController
+from neo_ingest_server import NeoIngestServer 
 
 # Logging simple (el resto de módulos usan el suyo propio)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [TOR] %(message)s")
