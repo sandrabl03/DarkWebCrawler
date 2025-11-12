@@ -91,8 +91,7 @@ class NeoIngestServer(threading.Thread):
             # 1. MERGE Page node 
             s.run("""
             MERGE (p:Page {url: $url})
-            ON CREATE SET p.title = $title, p.text = $text, p.html_file = $html_file,
-                          p.html_file_path = $html_file_path, p.html_file_url = $html_file_url,
+            ON CREATE SET p.title = $title, p.text = $text, 
                           p.host = $host, p.has_html_content = true,
                           p.first_seen = coalesce($crawl_date,timestamp())
             ON MATCH SET p.title = CASE WHEN $title <> '' THEN $title ELSE p.title END,
@@ -100,8 +99,7 @@ class NeoIngestServer(threading.Thread):
                          p.updated_at = coalesce($crawl_date,timestamp())
             """, {
                 "url": url, "host": host, "title": page.get("title",""), "text": page.get("text",""),
-                "html_file": page.get("html_file",""), "html_file_path": page.get("html_file_path",""),
-                "html_file_url": page.get("html_file_url",""), "crawl_date": page.get("crawl_date")
+                "crawl_date": page.get("crawl_date")
             })
             
             # 2. UNWIND links -> create LINKS_TO 
@@ -111,8 +109,16 @@ class NeoIngestServer(threading.Thread):
                 MERGE (a:Page {url: r.src_url})
                 MERGE (b:Page {url: r.dst_url})
                 ON CREATE SET b:Seed, b.first_seen_as_link = coalesce(r.crawl_date, timestamp())
-                MERGE (a)-[rel:LINKS_TO {anchor: r.anchor, depth: r.depth, crawl_date: r.crawl_date}]->(b)
-                ON CREATE SET rel.first_seen = coalesce(r.crawl_date, timestamp())
+                
+                MERGE (a)-[rel:LINKS_TO]->(b)
+
+                ON CREATE SET rel.first_detected = coalesce(r.crawl_date, timestamp()), 
+                              rel.count = 1,
+                              rel.depth = r.depth
+                            
+                ON MATCH SET rel.count = coalesce(rel.count, 0) + 1, 
+                             rel.last_detected = coalesce(r.crawl_date, timestamp()),
+                             rel.last_anchor = r.anchor
                 """, {"rows": links})
 
             # 3. UNWIND matched_terms -> CREACIÓN DE TÉRMINOS Y RELACIONES MENTIONS
