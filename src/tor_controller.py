@@ -31,8 +31,6 @@ class TorController:
     """
     def __init__(self):
         # --- Configuración ---
-        DEFAULT_HTML_DIR = os.path.join("..", "raw", "html_files")
-        self.out_html_dir = os.getenv("OUT_HTML_DIR", DEFAULT_HTML_DIR) 
         self.tor_timeout = float(os.getenv("TOR_TIMEOUT", "60.0"))
         self.proxies = {'http': 'socks5h://127.0.0.1:9050', 'https': 'socks5h://127.0.0.1:9050'}
         self.user_agents = [os.getenv("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36")]
@@ -61,9 +59,6 @@ class TorController:
         
         # 3. Inicializar el CLIENTE NeoController
         self.neo_db = NeoController()
-        
-        # Setup de directorios
-        os.makedirs(self.out_html_dir, exist_ok=True)
         
         # Manejo de señal
         signal.signal(signal.SIGINT, self.handle_sigint)
@@ -219,17 +214,22 @@ class TorController:
             # ---------------- EXTRACCIÓN Y PREPARACIÓN ----------------
             safe_html = self.sanitize_html(html)
             fname = hashlib.sha1(url.encode('utf-8')).hexdigest()[:16] + ".html"
-            path = os.path.join(self.out_html_dir, fname)
             
-            try:
-                with open(path, "w", encoding="utf-8") as fh:
-                    fh.write(safe_html)
-            except Exception as e:
-                logging.warning("Error saving html %s : %s", path, e)
-                self.mongo_db.mark_failed(url, "save_error")
-                continue
-                
+            gridfs_ref = None
             crawled = datetime.utcnow().isoformat()
+            try:
+                file_id = self.mongo_db.save_html_to_gridfs(
+                    filename=fname, 
+                    content=safe_html, 
+                    metadata={"source_url": url, "crawl_date": crawled, "sha1": fname[:-5]}
+                )
+                gridfs_ref = str(file_id) 
+                logging.info("HTML guardado en GridFS para %s. ID: %s", url, gridfs_ref)
+            except Exception as e:
+                logging.warning("Error saving html %s : %s", url, e)
+                self.mongo_db.revert_to_pending(url)
+                continue
+            
             
             # Extracción de título más segura
             title = ""
@@ -265,7 +265,7 @@ class TorController:
                         "dst_url": link,
                         "anchor": anchor_text[:200],
                         "depth": current_page_depth,
-                        "dst_html": fname,
+                        "dst_html_ref": gridfs_ref,
                         "crawl_date": crawled
                     })
 
@@ -291,8 +291,7 @@ class TorController:
                 "crawl_date": crawled,
                 "http_content_type": r.headers.get("Content-Type", ""),
                 "html_file": fname,
-                "html_file_path": os.path.abspath(path),
-                "html_file_url": f"http://127.0.0.1:8000/html_files/{fname}",
+                "html_file_id": gridfs_ref,
                 "safe_html": safe_html
             }
 
@@ -337,8 +336,7 @@ class TorController:
             logging.info("Ingestado en Neo: %s", url)
             self.mongo_db.mark_done(url, {
                 "html_file": fname,
-                "html_file_path": os.path.abspath(path),
-                "html_file_url": page_node["html_file_url"],
+                "html_file_id": gridfs_ref,
                 "title": title,
                 "updated_at": datetime.utcnow(),
                 "last_scraped": datetime.utcnow()

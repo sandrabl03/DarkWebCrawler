@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 
 from pymongo import MongoClient, ReturnDocument, UpdateOne
 from pymongo.errors import ConnectionFailure, BulkWriteError
+from gridfs import GridFS
 
 # --- CONFIGURACIÓN (Variables de Módulo) ---
 # Se definen aquí y son accesibles para cualquier archivo que importe este módulo
@@ -29,6 +30,7 @@ class MongoController:
         self.db = self.client[DBNAME]
         self.seeds_col = self.db[SEEDS_COLL]
         self.stats_col = self.db[STATS_COLL]
+        self.fs = GridFS(self.db)
         logging.info("Conexión a MongoDB establecida.")
 
     def close(self):
@@ -37,6 +39,19 @@ class MongoController:
         logging.info("Conexión a MongoDB cerrada.")
 
     # --- Métodos de Estadísticas (Counter) ---
+    
+    def save_html_to_gridfs(self, filename, content, metadata=None):
+        """Guarda el contenido HTML en GridFS y devuelve el ID del archivo."""
+        # GridFS necesita bytes. El contenido es seguro (sanitizado) y se codifica a UTF-8.
+        file_id = self.fs.put(
+            content.encode('utf-8'), 
+            filename=filename,
+            encoding='utf-8',
+            contentType='text/html; charset=utf-8',
+            metadata=metadata
+        )
+        logging.debug("HTML guardado en GridFS con ID: %s", str(file_id))
+        return file_id
     
     def get_and_inc_processed_count(self):
         """Incrementa el contador global en MongoDB de forma atómica y devuelve el nuevo valor."""
