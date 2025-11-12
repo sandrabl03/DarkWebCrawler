@@ -7,7 +7,7 @@ import os
 import sys
 from pymongo.errors import ConnectionFailure
 # Importamos MongoController para centralizar la lógica de DB
-from mongo_controller import MongoController 
+from persistence.mongo_controller import MongoController 
 
 # --- CONFIGURACIÓN ---
 # Usamos la misma variable de entorno por consistencia con el script original

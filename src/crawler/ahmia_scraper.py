@@ -7,7 +7,7 @@ import os
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
 
-from result_processor import ResultProcessor, OUTPUT_DIR_NAME, SYN_FILE
+from crawler.result_processor import ResultProcessor, OUTPUT_DIR_NAME, SYN_FILE
 
 # --- Constantes ---
 AHMIA_HOME = "https://ahmia.fi/"
