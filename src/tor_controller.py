@@ -290,11 +290,9 @@ class TorController:
                 "text": text[:10000],
                 "crawl_date": crawled,
                 "http_content_type": r.headers.get("Content-Type", ""),
-                "html_file": fname,
-                "html_file_id": gridfs_ref,
-                "safe_html": safe_html
+                "html_file_id": gridfs_ref, # Solo la referencia a GridFS
             }
-
+        
             payload = {
                 "page": page_node,
                 "links": links_list,
@@ -335,8 +333,7 @@ class TorController:
             # Si la ingesta es 200 OK:
             logging.info("Ingestado en Neo: %s", url)
             self.mongo_db.mark_done(url, {
-                "html_file": fname,
-                "html_file_id": gridfs_ref,
+                "html_file_id": gridfs_ref, 
                 "title": title,
                 "updated_at": datetime.utcnow(),
                 "last_scraped": datetime.utcnow()
