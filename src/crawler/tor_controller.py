@@ -38,7 +38,7 @@ class TorController:
         
         # --- Límites ---
         self.max_pages_to_fetch = sys.maxsize
-        self.max_depth = 3
+        self.max_depth = 20
         
         self.sleep = float(os.getenv("SLEEP", "3.5"))
         self.max_attempts = int(os.getenv("MAX_ATTEMPTS", "4"))
