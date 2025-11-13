@@ -4,8 +4,7 @@ import logging
 import requests
 import time
 from requests.exceptions import RequestException
-# Importar la clase del servidor para poder iniciarla en el main (opcional, pero útil para pruebas)
-from persistence.neo_ingest_server import NeoIngestServer 
+from .neo_ingest_server import NeoIngestServer 
 
 # ----------------- CONFIGURACIÓN GLOBAL -----------------
 # Neo Controller (Cliente) Config

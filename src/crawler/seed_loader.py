@@ -6,12 +6,10 @@ utilizando la funcionalidad de carga masiva de la clase MongoController.
 import os
 import sys
 from pymongo.errors import ConnectionFailure
-# Importamos MongoController para centralizar la lógica de DB
-from persistence.mongo_controller import MongoController 
+from ..persistence.mongo_controller import MongoController 
 
 # --- CONFIGURACIÓN ---
-# Usamos la misma variable de entorno por consistencia con el script original
-SEEDS_FILE = os.getenv("SEEDS_FILE", "../output_ahmia/seeds_with_terms.json")
+SEEDS_FILE = os.getenv("SEEDS_FILE", "output_ahmia/seeds_with_terms.json")
 
 def main():
     """Función principal para ejecutar la carga."""

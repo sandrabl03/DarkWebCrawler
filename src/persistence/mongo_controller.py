@@ -183,9 +183,9 @@ class MongoController:
                         "created_at": now,
                         "last_scraped": None,
                         "scrape_attempts": 0,
-                        "attempts": 0,          # Consistente con ensure_seed
-                        "priority": 0,          # Consistente con ensure_seed
-                        "depth": 0              # Inicializamos la profundidad en 0
+                        "attempts": 0,          
+                        "priority": 0,          
+                        "depth": 0              
                     },
                     # Campos que se actualizan siempre
                     "$set": {

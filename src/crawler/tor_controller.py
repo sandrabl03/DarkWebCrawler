@@ -15,9 +15,9 @@ from requests.exceptions import RequestException, ConnectionError, Timeout
 from bs4 import BeautifulSoup
 
 # Importamos los controladores de los otros python.
-from persistence.mongo_controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
-from persistence.neo_controller import NeoController
-from persistence.neo_ingest_server import NeoIngestServer 
+from ..persistence.mongo_controller import MongoController, RESET_INPROGRESS_OLDER_MIN 
+from ..persistence.neo_controller import NeoController
+from ..persistence.neo_ingest_server import NeoIngestServer 
 
 # Logging simple (el resto de módulos usan el suyo propio)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s [TOR] %(message)s")

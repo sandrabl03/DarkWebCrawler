@@ -7,7 +7,7 @@ import os
 from bs4 import BeautifulSoup
 from urllib.parse import urlencode, urljoin
 
-from crawler.result_processor import ResultProcessor, OUTPUT_DIR_NAME, SYN_FILE
+from result_processor import ResultProcessor, OUTPUT_DIR_NAME, SYN_FILE
 
 # --- Constantes ---
 AHMIA_HOME = "https://ahmia.fi/"
@@ -114,7 +114,7 @@ def ensure_output_directory(directory_name):
 def main_oop():
     """Función principal para ejecutar la versión orientada a objetos."""
     # Asegura que el directorio de salida exista
-    ensure_output_directory(os.path.join("..", OUTPUT_DIR_NAME))
+    ensure_output_directory(os.path.join(OUTPUT_DIR_NAME))
     
     # 1. Crear el objeto que maneja la carga y el procesamiento de datos
     processor = ResultProcessor(syn_file=SYN_FILE)

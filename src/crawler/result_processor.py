@@ -9,10 +9,10 @@ from urllib.parse import urlparse, parse_qs, unquote
 ONION_RE = re.compile(r'\b([a-z2-7]{16,56}\.onion)\b', re.IGNORECASE)
 
 OUTPUT_DIR_NAME = "output_ahmia"
-OUTPUT_DIR = os.path.join("..", OUTPUT_DIR_NAME)
+OUTPUT_DIR = os.path.join(OUTPUT_DIR_NAME)
 OUTPUT_SEEDS = os.path.join(OUTPUT_DIR, "seeds_with_terms.json")
 OUTPUT_HOSTS = os.path.join(OUTPUT_DIR, "hosts_terms.json")
-SYN_FILE = os.path.join("..", "docs", "synonyms.json")
+SYN_FILE = os.path.join("docs", "synonyms.json")
 
 
 class ResultProcessor:
