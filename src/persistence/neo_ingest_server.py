@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 # ----------------- CONFIGURACIÓN GLOBAL -----------------
 # Neo Ingest Server (Servidor Flask) Config
-NEO_URI = os.getenv("NEO_URI", "bolt://127.0.0.1:7687")
+NEO_URI = os.getenv("NEO_URI", "bolt://192.168.1.1:7687")
 NEO_USER = os.getenv("NEO_USER", "neo4j")
 NEO_PASS = os.getenv("NEO_PASS", "test1234")
 API_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme") 

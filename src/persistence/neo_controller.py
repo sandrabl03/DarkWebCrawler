@@ -8,7 +8,7 @@ from .neo_ingest_server import NeoIngestServer
 
 # ----------------- CONFIGURACIÓN GLOBAL -----------------
 # Neo Controller (Cliente) Config
-NEO_INGEST_URL = os.getenv("NEO_INGEST_URL", "http://127.0.0.1:9000/ingest_page")
+NEO_INGEST_URL = os.getenv("NEO_INGEST_URL", "http://192.168.1.1:9000/ingest_page")
 NEO_INGEST_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme")
 
 # Configuración de Logging
