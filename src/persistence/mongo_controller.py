@@ -11,7 +11,7 @@ from gridfs import GridFS
 
 # --- CONFIGURACIÓN (Variables de Módulo) ---
 # Se definen aquí y son accesibles para cualquier archivo que importe este módulo
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://192.168.1.1:27017")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://192.168.56.1:27017/")
 DBNAME = os.getenv("DBNAME", "darkweb_tfg")
 SEEDS_COLL = os.getenv("SEEDS_COLL", "seeds")
 STATS_COLL = os.getenv("STATS_COLL", "crawler_stats") 

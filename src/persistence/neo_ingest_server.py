@@ -6,10 +6,11 @@ import time
 from flask import Flask, request, jsonify, abort
 from neo4j import GraphDatabase, exceptions as neo4j_exceptions
 from urllib.parse import urlparse
+from datetime import datetime
 
 # ----------------- CONFIGURACIÓN GLOBAL -----------------
 # Neo Ingest Server (Servidor Flask) Config
-NEO_URI = os.getenv("NEO_URI", "bolt://192.168.1.1:7687")
+NEO_URI = os.getenv("NEO_URI", "bolt://192.168.56.1:7687")
 NEO_USER = os.getenv("NEO_USER", "neo4j")
 NEO_PASS = os.getenv("NEO_PASS", "test1234")
 API_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme") 
@@ -36,29 +37,45 @@ class NeoIngestServer(threading.Thread):
         super().__init__()
         self.host = host
         self.port = port
-        self.daemon = True # Permite que el hilo termine cuando el programa principal lo haga
-        self._initialize_driver()
+        self.daemon = True 
+        self._initialize_driver() # Ahora con reintentos
         self._setup_flask_routes()
 
     def _initialize_driver(self):
-        """Inicializa el driver de Neo4j y verifica la conexión."""
+        """Inicializa el driver de Neo4j y verifica la conexión con reintentos."""
         global driver
-        try:
-            # 1. Conexión
-            driver = GraphDatabase.driver(NEO_URI, auth=(NEO_USER, NEO_PASS))
-            driver.verify_connectivity()
-            logging.info("Conexión a Neo4j establecida correctamente.")
-            # 2. Constraints (Índices de unicidad)
-            self._ensure_constraints()
-        except neo4j_exceptions.AuthError:
-            logging.error("Error de autenticación: Verifica NEO_USER y NEO_PASS.")
-            driver = None
-        except neo4j_exceptions.ServiceUnavailable:
-            logging.error("Neo4j no está disponible en %s.", NEO_URI)
-            driver = None
-        except Exception as e:
-            logging.error("Error al inicializar Neo4j driver: %s", e)
-            driver = None
+        MAX_RETRIES = 5
+        RETRY_DELAY = 5 # segundos
+
+        for attempt in range(MAX_RETRIES):
+            try:
+                # CORRECCIÓN CRUCIAL: Añadido encrypted=False para evitar fallos de SSL/TLS
+                driver = GraphDatabase.driver(NEO_URI, auth=(NEO_USER, NEO_PASS), encrypted=False)
+                driver.verify_connectivity()
+                
+                # Éxito en la conexión
+                logging.info("Conexión a Neo4j establecida correctamente.")
+                self._ensure_constraints()
+                return 
+            
+            except neo4j_exceptions.AuthError:
+                logging.error("Error de autenticación: Verifica NEO_USER y NEO_PASS. Falla crítica, abortando.")
+                driver = None
+                return 
+            
+            except neo4j_exceptions.ServiceUnavailable as e:
+                if attempt < MAX_RETRIES - 1:
+                    logging.warning(f"Neo4j no está disponible en {NEO_URI}. Reintentando en {RETRY_DELAY}s... (Intento {attempt + 1}/{MAX_RETRIES})")
+                    time.sleep(RETRY_DELAY)
+                else:
+                    logging.error(f"Neo4j no está disponible después de {MAX_RETRIES} intentos en {NEO_URI}.")
+                    driver = None
+                    return
+            
+            except Exception as e:
+                logging.error("Error al inicializar Neo4j driver: %s", e)
+                driver = None
+                return
 
     def _ensure_constraints(self):
         """Asegura que los constraints de unicidad existan en Neo4j."""
@@ -76,6 +93,7 @@ class NeoIngestServer(threading.Thread):
 
     def _upsert_page_and_relations(self, payload):
         """Ejecuta las consultas Cypher para persistir la página, enlaces y términos."""
+        global driver
         if not driver:
             raise Exception("Neo4j driver no está activo. Imposible guardar datos.")
 
@@ -141,13 +159,11 @@ class NeoIngestServer(threading.Thread):
         def ingest_page():
             key = request.headers.get("X-API-KEY")
             if key != API_SECRET:
-                # El servidor verifica la clave API
                 abort(403, description="Invalid API key")
             payload = request.get_json(silent=True)
             if not payload or "page" not in payload:
                 abort(400, description="Invalid payload")
             try:
-                # Llama al método de persistencia
                 self._upsert_page_and_relations(payload)
             except Exception as e:
                 logging.exception("Neo upsert failed for URL: %s", payload["page"].get("url","")) 
@@ -166,7 +182,6 @@ class NeoIngestServer(threading.Thread):
     def run(self):
         """Método principal del Thread, inicia el servidor Flask."""
         logging.info(f"Starting Flask Neo ingest server in background on {self.host}:{self.port}")
-        # flask run() inicia el servidor en un hilo
         try:
             app.run(host=self.host, port=self.port, threaded=True, debug=False, use_reloader=False)
         except Exception as e:
