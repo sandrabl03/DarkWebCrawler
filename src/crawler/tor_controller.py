@@ -31,7 +31,8 @@ class TorController:
     """
     def __init__(self):
         # --- Configuración ---
-        self.tor_timeout = float(os.getenv("TOR_TIMEOUT", "60.0"))
+        self.connect_timeout = float(os.getenv("TOR_CONNECT_TIMEOUT", "5.0"))
+        self.read_timeout= float(os.getenv("TOR_READ_TIMEOUT", "20.0"))
         self.proxies = {'http': 'socks5h://127.0.0.1:9050', 'https': 'socks5h://127.0.0.1:9050'}
         self.user_agents = [os.getenv("USER_AGENT", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36")]
         self.min_text_chars = int(os.getenv("MIN_TEXT_CHARS", "1200"))
@@ -76,7 +77,7 @@ class TorController:
         """Realiza la petición HTTP a través de Tor."""
         headers = {'User-Agent': self.user_agents[0]}
         try:
-            r = requests.get(url, headers=headers, proxies=self.proxies, timeout=self.tor_timeout)
+            r = requests.get(url, headers=headers, proxies=self.proxies, timeout=(self.connect_timeout, self.read_timeout), verify=False)
             r.raise_for_status() 
             return r
         except (Timeout, ConnectionError, RequestException) as e:
