@@ -1,0 +1,42 @@
+nombre,tipo,conexiones
+drugs,Raíz (Total),123916
+ransomware,Raíz (Total),123700
+carding,Raíz (Total),1231
+hacking,Raíz (Total),123802
+fraud,Raíz (Total),510
+weapon,Raíz (Total),255
+marketplace,Raíz (Total),830
+phone,Raíz (Total),391
+pcp,Sinónimo,74
+fent,Sinónimo,94
+cheese,Sinónimo,271
+X,Sinónimo,168
+molly,Sinónimo,153
+420,Sinónimo,123652
+flake,Sinónimo,123
+drugs,Sinónimo,154
+RaaS,Sinónimo,123344
+ransomware,Sinónimo,396
+malware,Sinónimo,226
+fullz,Sinónimo,43
+dumps,Sinónimo,404
+bank drops,Sinónimo,329
+skimming,Sinónimo,664
+carding,Sinónimo,289
+sauce,Sinónimo,181
+AV,Sinónimo,146
+backdoor,Sinónimo,123344
+dox,Sinónimo,84
+Stealer,Sinónimo,200
+hacking,Sinónimo,228
+credential stuffing,Sinónimo,152
+PII,Sinónimo,32
+fraud,Sinónimo,179
+weapon,Sinónimo,189
+guns,Sinónimo,97
+listing,Sinónimo,115
+escrow,Sinónimo,283
+btc,Sinónimo,400
+marketplace,Sinónimo,163
+SIM swapping,Sinónimo,348
+phone,Sinónimo,158
