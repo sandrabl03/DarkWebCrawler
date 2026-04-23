@@ -38,7 +38,7 @@ class NeoIngestServer(threading.Thread):
         self.host = host
         self.port = port
         self.daemon = True 
-        self._initialize_driver() # Ahora con reintentos
+        self._initialize_driver() 
         self._setup_flask_routes()
 
     def _initialize_driver(self):
@@ -49,7 +49,6 @@ class NeoIngestServer(threading.Thread):
 
         for attempt in range(MAX_RETRIES):
             try:
-                # CORRECCIÓN CRUCIAL: Añadido encrypted=False para evitar fallos de SSL/TLS
                 driver = GraphDatabase.driver(NEO_URI, auth=(NEO_USER, NEO_PASS), encrypted=False)
                 driver.verify_connectivity()
                 
@@ -104,7 +103,7 @@ class NeoIngestServer(threading.Thread):
         url = page.get("url", "")
         host = urlparse(url).hostname or url
 
-        # Lógica Cypher para insertar/actualizar la página y relaciones
+        # Insertar/actualizar la página y relaciones
         with driver.session() as s:
             # 1. MERGE Page node 
             s.run("""

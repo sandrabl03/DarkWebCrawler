@@ -65,7 +65,6 @@ class NeoController:
 
 if __name__ == '__main__':
     # 1. Iniciar el servidor Flask en un hilo separado (Necesario para la prueba)
-    # En un entorno de producción real, el servidor se ejecutaría de forma independiente.
     logging.info("Iniciando NeoIngestServer en hilo para la prueba de funcionalidad...")
     server = NeoIngestServer()
     server.start()

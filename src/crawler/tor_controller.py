@@ -291,7 +291,7 @@ class TorController:
                 "text": text[:10000],
                 "crawl_date": crawled,
                 "http_content_type": r.headers.get("Content-Type", ""),
-                "html_file_id": gridfs_ref, # Solo la referencia a GridFS
+                "html_file_id": gridfs_ref, 
             }
         
             payload = {
