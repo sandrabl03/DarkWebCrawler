@@ -86,6 +86,39 @@ class TorController:
             logging.debug("fetch error Inesperado %s : %s", url, e)
         return None
 
+    # --- MÉTODOS DE APOYO A LA SANITIZACIÓN (Para reducir complejidad) ---
+
+    def _remove_dangerous_tags(self, soup):
+        """Elimina tags peligrosos como scripts, forms, etc."""
+        tags_to_kill = ['script', 'style', 'noscript', 'iframe', 'form', 'object', 'embed']
+        for tag in soup.find_all(tags_to_kill):
+            tag.decompose()
+
+    def _neutralize_media_and_links(self, soup):
+        """Reemplaza imágenes por texto y rompe enlaces."""
+        for img in soup.find_all('img'):
+            alt = img.get('alt', '[imagen]')
+            img.replace_with(f" [IMG: {alt}] ")
+            
+        for a in soup.find_all('a'):
+            if a.contents:
+                a.replace_with(*a.contents)
+            else:
+                a.decompose()
+
+    def _clean_attributes(self, soup):
+        """Limpia atributos peligrosos (onmouseover, src, etc.) de todos los tags."""
+        event_attrs = re.compile(r'^on', re.IGNORECASE)
+        attrs_to_remove = ('style', 'src', 'srcset', 'href', 'data')
+        
+        for tag in soup.find_all(True):
+            to_del = [attr for attr in tag.attrs if event_attrs.match(attr) or attr.lower() in attrs_to_remove]
+            for attr in to_del:
+                try:
+                    del tag.attrs[attr]
+                except Exception:
+                    pass
+
     def sanitize_html(self, raw_html):
         """Sanitiza el HTML para almacenamiento seguro y análisis de texto."""
         try:
@@ -93,50 +126,19 @@ class TorController:
         except Exception:
             soup = BeautifulSoup(raw_html, "html.parser")
 
-        # 1. Eliminar tags peligrosos (scripts, estilos, contenido incrustado, forms)
-        for tag_name in ['script', 'style', 'noscript', 'iframe', 'form', 'object', 'embed']:
-            for t in soup.find_all(tag_name):
-                t.decompose()
-
-        # 2. Neutralizar imágenes: reemplazarlas por un placeholder textual
-        for img in soup.find_all('img'):
-            alt = img.get('alt', '[imagen]')
-            img.replace_with(f" [IMG: {alt}] ")
-
-        # 3. Neutralizar enlaces: reemplazarlos por su texto interno (no clicable)
-        for a in soup.find_all('a'):
-            link_content = a.contents 
-            if link_content:
-                # Reemplazar el tag <a> por su contenido (texto)
-                a.replace_with(*link_content) 
-            else:
-                a.decompose()
-
-        # 4. Eliminar meta refresh
-        for meta in soup.find_all('meta'):
-            if meta.get('http-equiv','').lower() == 'refresh':
-                meta.decompose()
-
-        # 5. Eliminar atributos peligrosos/innecesarios
-        event_attrs = re.compile(r'^on', re.IGNORECASE)
-        attrs_to_remove = ('style', 'src', 'srcset', 'href', 'data') 
+        # Llamamos a las mini-funciones
+        self._remove_dangerous_tags(soup)
+        self._neutralize_media_and_links(soup)
         
-        for tag in soup.find_all(True):
-            remove_attrs = []
-            for attr in list(tag.attrs.keys()):
-                attr_lower = attr.lower()
-                if event_attrs.match(attr) or attr_lower in attrs_to_remove:
-                    remove_attrs.append(attr)
-            
-            for a in remove_attrs:
-                try:
-                    del tag.attrs[a]
-                except Exception:
-                    pass
+        # Eliminar meta refresh
+        for meta in soup.find_all('meta', attrs={'http-equiv': re.compile(r'refresh', re.I)}):
+            meta.decompose()
 
-        # 6. Ensamblaje del HTML limpio con CSP de seguridad
+        self._clean_attributes(soup)
+
+        # Ensamblaje del HTML limpio
         safe_body = soup.body or soup
-        safe_html = f"""<!doctype html>
+        return f"""<!doctype html>
             <html>
             <head>
             <meta charset="utf-8"/>
@@ -147,10 +149,7 @@ class TorController:
             <p><em>Snapshot sanitized — no scripts, iframes, forms, src/href removed.</em></p>
             {str(safe_body)}
             </body>
-            </html>
-            """
-        return safe_html
-
+            </html>"""
 
     # --- MÉTODO PRINCIPAL ----
     
