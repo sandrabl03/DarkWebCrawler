@@ -10,7 +10,7 @@ from datetime import datetime
 
 # ----------------- CONFIGURACIÓN GLOBAL -----------------
 # Neo Ingest Server (Servidor Flask) Config
-NEO_URI = os.getenv("NEO_URI", "bolt://192.168.56.1:7687")
+NEO_URI = os.getenv("NEO_URI", "bolt://localhost:7687")
 NEO_USER = os.getenv("NEO_USER", "neo4j")
 NEO_PASS = os.getenv("NEO_PASS", "test1234")
 API_SECRET = os.getenv("NEO_INGEST_SECRET", "changeme") 
