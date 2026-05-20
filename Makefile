@@ -12,4 +12,3 @@ run-seed-loader:
 
 run-tor-controller:
 	PYTHONPATH=. python3 -m src.crawler.tor_controller
-
