@@ -1,8 +1,13 @@
-export MONGO_URI = mongodb://192.168.56.1:27017
-export NEO_URI = bolt://192.168.56.1:7688
-export PYTHONPATH = .
+MONGO_URI ?= mongodb://localhost:27017
+NEO_URI ?= bolt://localhost:7688
+PYTHONPATH ?= .
+
+export MONGO_URI
+export NEO_URI
+export PYTHONPATH
 
 AHMIA_SCRIPT = src/crawler/ahmia_scraper.py
+
 
 run-docker:
 	docker restart neo4j && docker restart mongodb
