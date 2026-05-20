@@ -1,3 +1,7 @@
+export MONGO_URI = mongodb://192.168.56.1:27017
+export NEO_URI = bolt://192.168.56.1:7688
+export PYTHONPATH = .
+
 AHMIA_SCRIPT = src/crawler/ahmia_scraper.py
 
 run-docker:
@@ -7,8 +11,7 @@ run-ahmia-scraper:
 	python3 $(AHMIA_SCRIPT)
 
 run-seed-loader:
-	PYTHONPATH=. python3 -m src.crawler.seed_loader
-
+	python3 -m src.crawler.seed_loader
 
 run-tor-controller:
-	PYTHONPATH=. python3 -m src.crawler.tor_controller
+	python3 -m src.crawler.tor_controller
